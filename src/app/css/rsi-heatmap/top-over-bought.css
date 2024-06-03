@@ -1,0 +1,28 @@
+.header-color {
+  .ant-table-thead .ant-table-cell {
+    background-color: transparent;
+  }
+}
+
+.ant-table-custom {
+  .ant-table-body {
+    margin: 0;
+    overflow: overlay;
+    background-color: transparent;
+    transition: 0.3s background-color;
+  }
+  .ant-table-body::-webkit-scrollbar {
+    background-color: transparent;
+    width: 12px;
+  }
+  .ant-table-body::-webkit-scrollbar-thumb {
+    background-color: inherit;
+    border-radius: 8px;
+    background-clip: content-box;
+    border: 2px solid transparent;
+  }
+  .ant-table-body::-webkit-scrollbar-thumb:hover {
+    transition: 0s;
+    background-color: rgba(0, 0, 0, 0.5);
+  }
+}
