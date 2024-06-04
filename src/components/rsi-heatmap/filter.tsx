@@ -51,9 +51,9 @@ export const RsiFilter = ({ className }: RsiFilterProps) => {
       <div className="lg:flex items-center justify-between mt-3">
         <div className="lg:flex lg:gap-x-3">
           <div className="flex gap-x-3 items-center !h-16 overflow-scroll custom-scrollbar">
-            <Button className="hover:!text-black !h-11 !px-4 !py-3 !rounded-[10px]">
+            <Button className="hover:!text-black !h-12 !px-4 !py-3 !rounded-[10px] !border-2 !border-[#1A64F0] !shadow-5">
               <div className="flex justify-between items-center">
-                <div className="w-5 h-5">
+                <div className="w-5 h-5 flex items-center">
                   <Image
                     src="/coin/tether.svg"
                     priority
@@ -72,7 +72,7 @@ export const RsiFilter = ({ className }: RsiFilterProps) => {
             </Button>
             <Button className="hover:!text-black !h-11 !px-4 !py-3 !rounded-[10px]">
               <div className="flex justify-between items-center">
-                <div className="w-5 h-5">
+                <div className="w-5 h-5 flex items-center">
                   <Image
                     src="/coin/binance.svg"
                     priority
@@ -91,7 +91,7 @@ export const RsiFilter = ({ className }: RsiFilterProps) => {
             </Button>
             <Button className="hover:!text-black !h-11 !px-4 !py-3 !rounded-[10px]">
               <div className="flex justify-between items-center">
-                <div className="w-5 h-5">
+                <div className="w-5 h-5 flex items-center">
                   <Image
                     src="/coin/bitcoin.svg"
                     priority
