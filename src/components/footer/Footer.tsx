@@ -145,9 +145,9 @@ export const Footer = () => {
                 className="mr-2 h-8"
                 alt="The Alchemist"
               />
-              <span className="self-center text-2xl font-semibold whitespace-nowrap hidden sm:flex">
+              {/* <span className="self-center text-2xl font-semibold whitespace-nowrap hidden sm:flex">
                 The Alchemist
-              </span>
+              </span> */}
             </a>
 
             <p className="text-sm lg:text-base tracking-tight mt-6 text-neutral4 leading-1.5 font-normal">

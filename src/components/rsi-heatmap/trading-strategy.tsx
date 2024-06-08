@@ -11,14 +11,28 @@ export const TradingStrategy = ({ className }: TradingStrategyProps) => {
   return (
     <div className="p-6">
       <div className="text-[#111] font-bold text-lg">Trading Strategy</div>
-      <div className="mt-6 grid grid-cols-1 md:grid-cols-2 gap-10">
+      <div className="mt-10 grid grid-cols-2 gap-10">
+        <div className="text-sm font-semibold leading-5">
+          Signal:
+          <span className="text-[#1A64F0] text-xs leading-5 font-normal ml-1">
+            Over Sold
+          </span>
+        </div>
+        <div className="text-sm font-semibold leading-5 flex justify-end md:justify-start">
+          Indicator:
+          <span className="text-[#1A64F0] text-xs leading-5 font-normal ml-1">
+            RSI-7 ~ <span>27.8</span>
+          </span>
+        </div>
+      </div>
+      <div className="grid grid-cols-1 md:grid-cols-2 gap-4 md:gap-10">
         <div>
-          <div className="text-sm font-semibold leading-5">
+          {/* <div className="text-sm font-semibold leading-5">
             Signal:
             <span className="text-[#1A64F0] text-xs leading-5 font-normal ml-1">
               Over Sold
             </span>
-          </div>
+          </div> */}
           <div className="flex flex-col mt-6 gap-4">
             <div className="px-4 py-3 bg-[#E7E7E7] rounded-xl">
               <div className="text-sm font-medium text-[#7D7D7D] leading-5">
@@ -47,13 +61,13 @@ export const TradingStrategy = ({ className }: TradingStrategyProps) => {
           </div>
         </div>
         <div>
-          <div className="text-sm font-semibold leading-5">
+          {/* <div className="text-sm font-semibold leading-5">
             Indicator:
             <span className="text-[#1A64F0] text-xs leading-5 font-normal ml-1">
               RSI-7 ~ <span>27.8</span>
             </span>
-          </div>
-          <div className="flex flex-col mt-6 gap-4">
+          </div> */}
+          <div className="flex flex-col md:mt-6 gap-4">
             <div className="px-4 py-3 bg-[#E7E7E7] rounded-xl">
               <div className="text-sm font-medium text-[#7D7D7D] leading-5">
                 Target Point

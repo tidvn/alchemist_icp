@@ -1,6 +1,6 @@
 "use client";
-import EChartComponent from "@/app/(test_layout)/test/heatmap";
 import { RsiFilter } from "@/components/rsi-heatmap/filter";
+import { HeatMapChart } from "@/components/rsi-heatmap/heatmap";
 import { ManagePortfolio } from "@/components/rsi-heatmap/manage-portfolio";
 import { OderInfomation } from "@/components/rsi-heatmap/order-info";
 import { TopOverBought } from "@/components/rsi-heatmap/top-over-bought";
@@ -8,7 +8,6 @@ import { TopOverSold } from "@/components/rsi-heatmap/top-over-sold";
 import { TradeWithCandleStick } from "@/components/rsi-heatmap/trade-with-candle-stick";
 import { TradingStrategy } from "@/components/rsi-heatmap/trading-strategy";
 import { ArrowsOutSimple } from "@phosphor-icons/react/dist/ssr";
-import { useState } from "react";
 import { FullScreen, useFullScreenHandle } from "react-full-screen";
 
 export default function HeatMap() {
@@ -30,7 +29,7 @@ export default function HeatMap() {
             onClick={handle.enter}
           />
           <FullScreen handle={handle}>
-            <EChartComponent className="!h-full" />
+            <HeatMapChart className="!h-full" />
           </FullScreen>
         </div>
         <div className="col-span-3 lg:col-span-1 order-3 border border-[#E7E7E7] rounded-xl">

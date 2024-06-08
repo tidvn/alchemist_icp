@@ -7,7 +7,7 @@ interface EChartComponentProps {
   className?: string;
 }
 
-const HeatMapChart = ({ className }: EChartComponentProps) => {
+export const HeatMapChart = ({ className }: EChartComponentProps) => {
   const nameCoins = ["BTC", "ETH", "SOL"];
   const data = [
     [14, 55],
