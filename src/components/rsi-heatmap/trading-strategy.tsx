@@ -1,12 +1,80 @@
+"use client";
 import { Button } from "antd";
 import classNames from "classnames";
+import { TopOverSoldDataItem } from "./top-over-sold";
+import { TopOverBoughtDataItem } from "./top-over-bought";
+import { useMemo } from "react";
+import { RsiType } from "@/type/type";
 
 interface TradingStrategyProps {
   className?: string;
+  record?: TopOverSoldDataItem | TopOverBoughtDataItem;
+  signal?: "sold" | "bought";
+  heatMapType: RsiType;
 }
 
-export const TradingStrategy = ({ className }: TradingStrategyProps) => {
+export const TradingStrategy = ({
+  className,
+  record,
+  signal,
+  heatMapType,
+}: TradingStrategyProps) => {
   const tradingStrategyClassname = classNames(className);
+
+  const entryPoint = useMemo(() => {
+    if (record?.close) {
+      return record.close;
+    }
+    return 0;
+  }, [record?.close]);
+
+  const dca1 = useMemo(() => {
+    if (record?.close && record?.low && record?.high && signal) {
+      return (record.close + signal === "sold" ? record.low : record.high) / 2;
+    }
+    return 0;
+  }, [record?.close, record?.low, record?.high, signal]);
+
+  const dca2 = useMemo(() => {
+    if (record?.low && record?.high && signal) {
+      return signal === "sold" ? record.low : record.high;
+    }
+    return 0;
+  }, [record?.low, record?.high, signal]);
+
+  const targetPoint = useMemo(() => {
+    return entryPoint * 1.05;
+  }, [entryPoint]);
+
+  const stopLoss = useMemo(() => {
+    if (record?.low && record?.high && signal) {
+      return signal === "sold" ? record.low * 1.05 : record.high * 1.05;
+    }
+    return 0;
+  }, [record?.low, record?.high, signal]);
+
+  const reword = useMemo(() => {
+    if (record?.close) {
+      return (record.close * 0.05).toFixed(6);
+    }
+    return 0;
+  }, [record?.close]);
+
+  const risk = useMemo(() => {
+    if (record?.close && record?.low && record?.high && signal) {
+      if (signal === "sold") {
+        return (record.low * 0.95 - record.close).toFixed(6);
+      } else {
+        return (record.close - record.high * 1.05).toFixed(6);
+      }
+    }
+    return 0;
+  }, [record?.close, record?.low, record?.high, signal]);
+
+  const signalClassName = classNames("text-xs leading-5 font-normal ml-1", {
+    "text-[#1A64F0]": signal === "sold",
+    "text-[#CC0001]": signal === "bought",
+  });
 
   return (
     <div className="p-6">
@@ -14,14 +82,14 @@ export const TradingStrategy = ({ className }: TradingStrategyProps) => {
       <div className="mt-10 grid grid-cols-2 gap-10">
         <div className="text-sm font-semibold leading-5">
           Signal:
-          <span className="text-[#1A64F0] text-xs leading-5 font-normal ml-1">
-            Over Sold
+          <span className={signalClassName}>
+            {signal === "bought" ? "Over Bought" : "Over Sold"}
           </span>
         </div>
         <div className="text-sm font-semibold leading-5 flex justify-end md:justify-start">
           Indicator:
           <span className="text-[#1A64F0] text-xs leading-5 font-normal ml-1">
-            RSI-7 ~ <span>27.8</span>
+            {heatMapType} ~ <span>{record?.rsi}</span>
           </span>
         </div>
       </div>
@@ -39,7 +107,7 @@ export const TradingStrategy = ({ className }: TradingStrategyProps) => {
                 Entry Point
               </div>
               <div className="text-[#333] font-semibold leadin-6 mt-1">
-                0.00000079
+                {entryPoint}
               </div>
             </div>
             <div className="px-4 py-3 bg-[#E7E7E7] rounded-xl">
@@ -47,7 +115,7 @@ export const TradingStrategy = ({ className }: TradingStrategyProps) => {
                 DCA1
               </div>
               <div className="text-[#333] font-semibold leadin-6 mt-1">
-                0.00000085
+                {dca1}
               </div>
             </div>
             <div className="px-4 py-3 bg-[#E7E7E7] rounded-xl">
@@ -55,7 +123,7 @@ export const TradingStrategy = ({ className }: TradingStrategyProps) => {
                 DCA2
               </div>
               <div className="text-[#333] font-semibold leadin-6 mt-1">
-                0.00000079
+                {dca2}
               </div>
             </div>
           </div>
@@ -73,7 +141,7 @@ export const TradingStrategy = ({ className }: TradingStrategyProps) => {
                 Target Point
               </div>
               <div className="text-[#333] font-semibold leadin-6 mt-1">
-                42,000
+                {targetPoint}
               </div>
             </div>
             <div className="grid grid-cols-2 gap-x-6">
@@ -82,7 +150,7 @@ export const TradingStrategy = ({ className }: TradingStrategyProps) => {
                   Risk
                 </div>
                 <div className="text-[#333] font-semibold leadin-6 mt-1">
-                  -500
+                  {risk}
                 </div>
               </div>
               <div className="px-4 py-3 bg-[#E7E7E7] rounded-xl ">
@@ -90,7 +158,7 @@ export const TradingStrategy = ({ className }: TradingStrategyProps) => {
                   Reward
                 </div>
                 <div className="text-[#333] font-semibold leadin-6 mt-1">
-                  +1200
+                  {reword}
                 </div>
               </div>
             </div>
@@ -99,7 +167,7 @@ export const TradingStrategy = ({ className }: TradingStrategyProps) => {
                 Stop Loss
               </div>
               <div className="text-[#333] font-semibold leadin-6 mt-1">
-                37,000
+                {stopLoss}
               </div>
             </div>
           </div>

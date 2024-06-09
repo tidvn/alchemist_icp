@@ -1,49 +1,62 @@
 "use client";
+import { RsiType, TimeType } from "@/type/type";
 import { Button } from "antd";
 import classNames from "classnames";
 import Image from "next/image";
 import Link from "next/link";
-import { useState } from "react";
 
 interface RsiFilterProps {
   className?: string;
+  heatMapType: RsiType;
+  setHeatMapType: (type: RsiType) => void;
+  time: TimeType;
+  setTime: (time: TimeType) => void;
+  pair: string;
 }
 
-type RSIType = "rsi7" | "rsi14" | "adx14" | "other";
-
-export const RsiFilter = ({ className }: RsiFilterProps) => {
-  const [heatMapType, setHeatMapType] = useState("rsi7" as RSIType);
-
+export const RsiFilter = ({
+  className,
+  heatMapType,
+  setHeatMapType,
+  time,
+  setTime,
+  pair,
+}: RsiFilterProps) => {
   const filterClassName = classNames(className);
-  const getActiveClassName = (type: RSIType) =>
+  const getActiveClassName = (type: RsiType) =>
     classNames("snap-center cursor-pointer", {
       "text-[#1A64F0]": type === heatMapType,
+    });
+
+  const getActiveTimeClassName = (t: TimeType) =>
+    classNames("hover:!text-black !h-12 !px-8 !py-3 !rounded-[10px]", {
+      "!text-[#1A64F0] !border-2 !border-[#1A64F0] !shadow-5": t === time,
     });
 
   return (
     <div className={filterClassName}>
       <div className="flex items-center text-xs text-nowrap overflow-scroll sm:text-sm sm:font-semibold text-[#7D7D7D] gap-x-4 md:gap-x-12 custom-scrollbar">
         <div
-          className={getActiveClassName("rsi7")}
-          onClick={() => setHeatMapType("rsi7")}
+          className={getActiveClassName("RSI7")}
+          onClick={() => setHeatMapType("RSI7")}
         >
           RSI7 Heatmap
         </div>
         <div
-          className={getActiveClassName("rsi14")}
-          onClick={() => setHeatMapType("rsi14")}
+          className={getActiveClassName("RSI14")}
+          onClick={() => setHeatMapType("RSI14")}
         >
           RSI14 Heatmap
         </div>
         <div
-          className={getActiveClassName("adx14")}
-          onClick={() => setHeatMapType("adx14")}
+          className={getActiveClassName("ADX14")}
+          onClick={() => setHeatMapType("ADX14")}
         >
           ADX14 Heatmap
         </div>
         <div
-          className={getActiveClassName("other")}
-          onClick={() => setHeatMapType("other")}
+          className={getActiveClassName("OTHER")}
+          onClick={() => setHeatMapType("OTHER")}
         >
           Other
         </div>
@@ -70,7 +83,7 @@ export const RsiFilter = ({ className }: RsiFilterProps) => {
                 </div>
               </div>
             </Button>
-            <Button className="hover:!text-black !h-11 !px-4 !py-3 !rounded-[10px]">
+            <Button className="hover:!text-black !h-12 !px-4 !py-3 !rounded-[10px]">
               <div className="flex justify-between items-center">
                 <div className="w-5 h-5 flex items-center">
                   <Image
@@ -89,7 +102,7 @@ export const RsiFilter = ({ className }: RsiFilterProps) => {
                 </div>
               </div>
             </Button>
-            <Button className="hover:!text-black !h-11 !px-4 !py-3 !rounded-[10px]">
+            <Button className="hover:!text-black !h-12 !px-4 !py-3 !rounded-[10px]">
               <div className="flex justify-between items-center">
                 <div className="w-5 h-5 flex items-center">
                   <Image
@@ -111,23 +124,35 @@ export const RsiFilter = ({ className }: RsiFilterProps) => {
           </div>
           <div className="flex items-center mt-4 lg:mt-0 gap-x-3 overflow-scroll custom-scrollbar">
             <div>
-              <Button className="hover:!text-black !h-11 !px-8 !py-3 !rounded-[10px]">
-                1D
+              <Button
+                className={getActiveTimeClassName("ONE_DAY")}
+                onClick={() => setTime("ONE_DAY")}
+              >
+                <div className="flex items-center">1D</div>
               </Button>
             </div>
             <div>
-              <Button className="hover:!text-black !h-11 !px-8 !py-3 !rounded-[10px]">
-                4H
+              <Button
+                className={getActiveTimeClassName("FOUR_HOUR")}
+                onClick={() => setTime("FOUR_HOUR")}
+              >
+                <div className="flex items-center">4H</div>
               </Button>
             </div>
             <div>
-              <Button className="hover:!text-black !h-11 !px-8 !py-3 !rounded-[10px]">
-                1H
+              <Button
+                className={getActiveTimeClassName("ONE_HOUR")}
+                onClick={() => setTime("ONE_HOUR")}
+              >
+                <div className="flex items-center">1H</div>
               </Button>
             </div>
             <div>
-              <Button className="hover:!text-black !h-11 !px-8 !py-3 !rounded-[10px]">
-                30m
+              <Button
+                className={getActiveTimeClassName("THIRTY_MINUTES")}
+                onClick={() => setTime("THIRTY_MINUTES")}
+              >
+                <div className="flex items-center">30m</div>
               </Button>
             </div>
           </div>
@@ -137,7 +162,9 @@ export const RsiFilter = ({ className }: RsiFilterProps) => {
           <div className="text-sm font-medium leading-5 text-[#7D7D7D]">
             Tradding Pair:
           </div>
-          <div className="text-xl font-semibold leading-8 mt-2">BTC/USDT</div>
+          <div className="text-xl font-semibold leading-8 mt-2">
+            {pair?.replace(/(.*)(USDT)$/, "$1/$2")}
+          </div>
         </div>
       </div>
     </div>

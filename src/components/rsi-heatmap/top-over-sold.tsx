@@ -3,80 +3,84 @@
 import { Table } from "antd";
 import classNames from "classnames";
 import "../../app/css/rsi-heatmap/top-over-bought.css";
+import { useEffect, useState } from "react";
 const { Column } = Table;
 
-interface TopOverSoldProps {
-  className?: string;
-}
-export const TopOverSold = ({ className }: TopOverSoldProps) => {
-  interface DataType {
-    key: React.Key;
-    name: string;
-    discoveredOn: string;
-  }
+export type TopOverSoldData = {
+  symbol: string;
+  rsi: number;
+  close: number;
+  high: number;
+  low: number;
+  dateCreated: string;
+};
 
-  const data: DataType[] = [
-    {
-      key: "1",
-      name: "AMBBTC...",
-      discoveredOn: "00:00 - 24/11",
-    },
-    {
-      key: "2",
-      name: "AMBBTC...",
-      discoveredOn: "00:00 - 24/11",
-    },
-    {
-      key: "3",
-      name: "AMBBTC...",
-      discoveredOn: "00:00 - 24/11",
-    },
-    {
-      key: "4",
-      name: "AMBBTC...",
-      discoveredOn: "00:00 - 24/11",
-    },
-    {
-      key: "5",
-      name: "AMBBTC...",
-      discoveredOn: "00:00 - 24/11",
-    },
-    {
-      key: "6",
-      name: "AMBBTC...",
-      discoveredOn: "00:00 - 24/11",
-    },
-    {
-      key: "7",
-      name: "AMBBTC...",
-      discoveredOn: "00:00 - 24/11",
-    },
-    {
-      key: "8",
-      name: "AMBBTC...",
-      discoveredOn: "00:00 - 24/11",
-    },
-    {
-      key: "9",
-      name: "AMBBTC...",
-      discoveredOn: "00:00 - 24/11",
-    },
-    {
-      key: "10",
-      name: "AMBBTC...",
-      discoveredOn: "00:00 - 24/11",
-    },
-    {
-      key: "11",
-      name: "AMBBTC...",
-      discoveredOn: "00:00 - 24/11",
-    },
-    {
-      key: "12",
-      name: "AMBBTC...",
-      discoveredOn: "00:00 - 24/11",
-    },
-  ];
+export type TopOverSoldDataItem = {
+  key: number;
+  name: string;
+  rsi: number;
+  close: number;
+  high: number;
+  low: number;
+  discoveredOn: string;
+};
+
+type TopOverSoldProps = {
+  className?: string;
+  recordActiveIndex?: number;
+  setRecordActive?: (record: TopOverSoldDataItem) => void;
+  setRecordActiveIndex?: (index: number) => void;
+  signal?: "sold" | "bought";
+  setSignal?: (signal: "sold" | "bought") => void;
+  data: TopOverSoldData[];
+};
+
+export const TopOverSold = ({
+  className,
+  data,
+  recordActiveIndex,
+  setRecordActiveIndex,
+  signal,
+  setSignal,
+  setRecordActive,
+}: TopOverSoldProps) => {
+  const [loading, setLoading] = useState(false);
+  const [topOverSoldData, setTopOverSoldData] = useState<TopOverSoldDataItem[]>(
+    []
+  );
+  const [selectedRowKey, setSelectedRowKey] = useState(0);
+
+  useEffect(() => {
+    setLoading(true);
+    const newData = data?.map((item, index) => {
+      return {
+        key: index,
+        name: item.symbol,
+        rsi: item.rsi,
+        close: item.close,
+        high: item.high,
+        low: item.low,
+        discoveredOn: item.dateCreated,
+      };
+    });
+    setTopOverSoldData(newData);
+    setLoading(false);
+  }, [data]);
+
+  const onRowClick = (record: TopOverSoldDataItem) => {
+    if (record) {
+      setSignal && setSignal("sold");
+      setRecordActiveIndex && setRecordActiveIndex(record.key);
+      setRecordActive && setRecordActive(record);
+    }
+  };
+
+  const rowClassName = (record: TopOverSoldDataItem) => {
+    const selectedRowKey = recordActiveIndex ?? "";
+    return record.key === selectedRowKey && signal === "sold"
+      ? "row-active"
+      : "";
+  };
 
   const topOverSoldClassName = classNames("h-[604px]", className);
 
@@ -87,11 +91,16 @@ export const TopOverSold = ({ className }: TopOverSoldProps) => {
           Top Over Sold
         </div>
         <Table
-          dataSource={data}
+          dataSource={topOverSoldData}
           size="middle"
           pagination={false}
           scroll={{ y: 460 }}
           className="mt-4 header-color ant-table-custom"
+          loading={loading}
+          onRow={(record) => ({
+            onClick: () => onRowClick(record),
+          })}
+          rowClassName={rowClassName}
         >
           <Column
             title="Name"
