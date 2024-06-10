@@ -1,23 +1,23 @@
 "use client";
-import React from "react";
+import React, { useMemo } from "react";
 import ReactECharts from "echarts-for-react";
 import classNames from "classnames";
 
 interface EChartComponentProps {
   className?: string;
+  nameCoins: string[]; // Array of coin names
+  data: [number, number][]; // Array of data points (coinRank, rsiValue)
+  rateCompared: number[]; // Array of rate changes compared to the previous period
 }
 
-export const HeatMapChart = ({ className }: EChartComponentProps) => {
-  const nameCoins = ["BTC", "ETH", "SOL"];
-  const data = [
-    [14, 55],
-    [8, 79],
-    [80, 25],
-  ];
+export const HeatMapChart = ({
+  className,
+  nameCoins,
+  data,
+  rateCompared,
+}: EChartComponentProps) => {
   const thresholdValues = [20, 30, 40, 60, 70, 80];
   const zoneColors = ["#65a87a", "#829F8B", "#939393", "#D86D66", "#CD534A"];
-  const rateCompared = [20.75, -7.82, 9.21];
-
   const getColor = (value: any) => {
     if (value >= thresholdValues[0] && value <= thresholdValues[1]) {
       return zoneColors[0];
@@ -32,7 +32,25 @@ export const HeatMapChart = ({ className }: EChartComponentProps) => {
     }
   };
 
+  const averageRSI = useMemo(() => {
+    if (data.length === 0) {
+      return 0; // Hoặc giá trị mặc định khác nếu data rỗng
+    }
+
+    const totalRSI = data.reduce((sum, item) => sum + item[1], 0); // Tính tổng RSI
+    return totalRSI / data.length; // Tính trung bình
+  }, [data]); // Chỉ tính toán lại khi data thay đổi
+
   const option = {
+    dataZoom: [
+      {
+        type: "slider", // Hoặc 'slider' nếu bạn muốn thanh trượt dataZoom
+        xAxisIndex: [0], // Chỉ định trục xAxis áp dụng dataZoom
+        start: 20, // Phần trăm bắt đầu hiển thị (0 = 0%)
+        end: 30, // Phần trăm kết thúc hiển thị (100 = 100%)
+        zoomLock: true,
+      },
+    ],
     grid: {
       z: 10,
       left: 30,
@@ -59,8 +77,8 @@ export const HeatMapChart = ({ className }: EChartComponentProps) => {
         showMinLabel: false,
       },
       min: 0,
-      max: 160,
-      interval: 10,
+      max: 250,
+      interval: 20,
     },
     yAxis: {
       name: "RSI(4h)",
@@ -74,14 +92,14 @@ export const HeatMapChart = ({ className }: EChartComponentProps) => {
         showMinLabel: false,
         color: "#333333",
       },
-      min: 20,
-      max: 80,
+      min: 0,
+      max: 100,
       interval: 10,
     },
     series: [
       {
         symbolSize: 20,
-        data: data.map((item, index) => ({
+        data: data?.map((item, index) => ({
           value: item,
           name: nameCoins[index],
           label: {
@@ -108,37 +126,38 @@ export const HeatMapChart = ({ className }: EChartComponentProps) => {
           // symbolOffset: [0, 40.12],
 
           symbolSize: function (value: any, params: any) {
-            if (Math.abs(rateCompared[params.dataIndex]) > 20) {
+            if (Math.abs(rateCompared[params.data.coord[0]]) > 20) {
               return 100;
-            } else if (Math.abs(rateCompared[params.dataIndex]) < 3) {
+            } else if (Math.abs(rateCompared[params.data.coord[0]]) < 3) {
               return 12;
             }
-            return Math.abs(rateCompared[params.dataIndex]) * 5;
+            return Math.abs(rateCompared[params.data.coord[0]]) * 5;
           },
 
           // số thứ 2 bằnd một nửa của symbolSize
           symbolOffset: function (value: any, params: any) {
-            if (Math.abs(rateCompared[params.dataIndex]) > 20) {
-              if (rateCompared[params.dataIndex] >= 0) {
+            if (Math.abs(rateCompared[params.data.coord[0]]) > 20) {
+              if (rateCompared[params.data.coord[0]] >= 0) {
                 return [0, 50];
               } else {
                 return [0, -50];
               }
-            } else if (Math.abs(rateCompared[params.dataIndex]) < 3) {
-              if (rateCompared[params.dataIndex] >= 0) {
+            } else if (Math.abs(rateCompared[params.data.coord[0]]) < 3) {
+              if (rateCompared[params.data.coord[0]] >= 0) {
                 return [0, 6];
               } else {
                 return [0, -6];
               }
             }
 
-            return [0, rateCompared[params.dataIndex] * 2.5];
+            return [0, rateCompared[params.data.coord[0]] * 2.5];
           },
+
           itemStyle: {
             borderWidth: 2,
             borderType: "dotted",
           },
-          data: data.map(function (item, index) {
+          data: data?.map(function (item, index) {
             return {
               coord: [item[0], item[1]],
               itemStyle: {
@@ -251,7 +270,7 @@ export const HeatMapChart = ({ className }: EChartComponentProps) => {
             color: "rgb(234,151,62)",
             width: 2,
           },
-          data: [{ yAxis: 53.8 }],
+          data: [{ yAxis: averageRSI }],
         },
       },
     ],

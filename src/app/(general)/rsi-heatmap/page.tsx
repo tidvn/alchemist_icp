@@ -18,6 +18,7 @@ import { ArrowsOutSimple } from "@phosphor-icons/react/dist/ssr";
 import { FullScreen, useFullScreenHandle } from "react-full-screen";
 import { RsiType, TimeType } from "@/type/type";
 import api from "@/axios";
+import { Spin } from "antd";
 
 export default function HeatMap() {
   const handle = useFullScreenHandle();
@@ -30,12 +31,18 @@ export default function HeatMap() {
     TopOverSoldDataItem | TopOverBoughtDataItem
   >({} as TopOverSoldDataItem | TopOverBoughtDataItem);
   const [signal, setSignal] = useState<"sold" | "bought">("sold");
+  const [heatMapData, setHeatMapData] = useState([]);
+  const [rateCompared, setRateCompared] = useState([]);
+  const [nameCoins, setNameCoins] = useState([]);
+  const [isLoading, setIsLoading] = useState(true);
 
   const fetchData = async (heatMapType: RsiType, time: TimeType) => {
     try {
+      setIsLoading(true);
       const { data: topOverSold } = await api.get("/heatmap/top-over-sold", {
         params: { heatMapType, timeType: time },
       });
+
       const { data: topOverBought } = await api.get(
         "/heatmap/top-over-bought",
         {
@@ -43,6 +50,15 @@ export default function HeatMap() {
         }
       );
 
+      const { data: chartData } = await api.get("/heatmap/chart-data?", {
+        params: { heatMapType, timeType: time },
+      });
+
+      setNameCoins(chartData.map((item: any) => item.symbol));
+      setHeatMapData(
+        chartData.map((item: any, index: number) => [index, item.rsi])
+      );
+      setRateCompared(chartData.map((item: any) => item.percentageChange));
       setTopOverSoldData(topOverSold);
       setTopOverBoughtData(topOverBought);
       setRecordActive({
@@ -57,6 +73,8 @@ export default function HeatMap() {
       setSignal("sold");
     } catch (error) {
       console.error("Error fetching data:", error);
+    } finally {
+      setIsLoading(false);
     }
   };
 
@@ -92,8 +110,22 @@ export default function HeatMap() {
             className="absolute right-6 top-8 z-50 cursor-pointer"
             onClick={handle.enter}
           />
-          <FullScreen handle={handle}>
-            <HeatMapChart className="!h-full" />
+          <FullScreen
+            handle={handle}
+            className="flex items-center justify-around h-full"
+          >
+            {isLoading ? (
+              <div className="flex justify-center">
+                <Spin size="large" />
+              </div>
+            ) : (
+              <HeatMapChart
+                nameCoins={nameCoins}
+                data={heatMapData}
+                rateCompared={rateCompared}
+                className="!h-full"
+              />
+            )}
           </FullScreen>
         </div>
         <div className="col-span-3 lg:col-span-1 order-3 border border-[#E7E7E7] rounded-xl">
