@@ -16,7 +16,7 @@ export const HeatMapChart = ({
   data,
   rateCompared,
 }: EChartComponentProps) => {
-  const thresholdValues = [20, 30, 40, 60, 70, 80];
+  const thresholdValues = [0, 30, 40, 60, 70, 100];
   const zoneColors = ["#65a87a", "#829F8B", "#939393", "#D86D66", "#CD534A"];
   const getColor = (value: any) => {
     if (value >= thresholdValues[0] && value <= thresholdValues[1]) {
@@ -47,8 +47,9 @@ export const HeatMapChart = ({
         type: "slider", // Hoặc 'slider' nếu bạn muốn thanh trượt dataZoom
         xAxisIndex: [0], // Chỉ định trục xAxis áp dụng dataZoom
         start: 20, // Phần trăm bắt đầu hiển thị (0 = 0%)
-        end: 30, // Phần trăm kết thúc hiển thị (100 = 100%)
+        end: 50, // Phần trăm kết thúc hiển thị (100 = 100%)
         zoomLock: true,
+        realtime: false,
       },
     ],
     grid: {
@@ -77,7 +78,7 @@ export const HeatMapChart = ({
         showMinLabel: false,
       },
       min: 0,
-      max: 250,
+      max: nameCoins.length + 5,
       interval: 20,
     },
     yAxis: {
