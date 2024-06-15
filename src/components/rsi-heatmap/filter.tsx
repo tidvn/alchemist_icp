@@ -87,7 +87,7 @@ export const RsiFilter = ({
               <div className="flex justify-between items-center">
                 <div className="w-5 h-5 flex items-center">
                   <Image
-                    src="/coin/binance.svg"
+                    src="/coin/bitcoin.svg"
                     priority
                     width={20}
                     height={20}
@@ -106,7 +106,7 @@ export const RsiFilter = ({
               <div className="flex justify-between items-center">
                 <div className="w-5 h-5 flex items-center">
                   <Image
-                    src="/coin/bitcoin.svg"
+                    src="/coin/binance.svg"
                     priority
                     width={20}
                     height={20}
@@ -114,9 +114,9 @@ export const RsiFilter = ({
                   />
                 </div>
                 <div className="flex justify-between text-sm font-medium ml-2">
-                  <div>Binance USDT</div>
+                  <div>Binance USD</div>
                   <Link href="#" className="ml-1">
-                    BUSDT
+                    BUSD
                   </Link>
                 </div>
               </div>

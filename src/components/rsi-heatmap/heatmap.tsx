@@ -48,7 +48,7 @@ export const HeatMapChart = ({
         xAxisIndex: [0], // Chỉ định trục xAxis áp dụng dataZoom
         start: 20, // Phần trăm bắt đầu hiển thị (0 = 0%)
         end: 50, // Phần trăm kết thúc hiển thị (100 = 100%)
-        zoomLock: true,
+        // zoomLock: true,
         realtime: false,
       },
     ],

@@ -10,7 +10,7 @@ export default function RsiHeatMapLayout({
 }) {
   return (
     <div>
-      <section className="mx-2 sm:mx-4 md:mx-10 xl:mx-20 2xl:mx-36 mt-7 mb-40">
+      <section className="mx-2 sm:mx-4 md:mx-10 xl:mx-20 2xl:mx-36 mt-7 mb-14">
         <Header />
         <div className="flex items-center justify-center text-center text-xs leading-5 font-medium bg-[#F0F7FF] h-11 rounded-lg mt-8">
           <div>
@@ -20,7 +20,7 @@ export default function RsiHeatMapLayout({
             </Link>
           </div>
         </div>
-        <div className="mt-6 md:mt-8 mb-30 mx-auto max-w-[1380px]">
+        <div className="mt-6 md:mt-8 mb-10 mx-auto max-w-[1380px]">
           {children}
         </div>
       </section>

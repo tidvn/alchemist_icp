@@ -30,7 +30,9 @@ export const TradingStrategy = ({
 
   const dca1 = useMemo(() => {
     if (record?.close && record?.low && record?.high && signal) {
-      return (record.close + signal === "sold" ? record.low : record.high) / 2;
+      return (
+        (record.close + (signal === "sold" ? record.low : record.high)) / 2
+      );
     }
     return 0;
   }, [record?.close, record?.low, record?.high, signal]);
