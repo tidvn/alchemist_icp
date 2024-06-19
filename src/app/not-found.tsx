@@ -20,7 +20,11 @@ const Page404 = () => {
                 need to go.
               </p>
               <Link href="/">
-                <Button pill color="blue" className="mt-8">
+                <Button
+                  pill
+                  color="blue"
+                  className="mt-8 bg-primary text-white"
+                >
                   Take me home
                 </Button>
               </Link>

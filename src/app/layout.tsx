@@ -39,7 +39,7 @@ export default function RootLayout({
             <ThemeProvider>
               <div>
                 {children}
-                <Footer />
+                {/* <Footer /> */}
               </div>
             </ThemeProvider>
           </ParallaxProvider>
