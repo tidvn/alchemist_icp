@@ -1,4 +1,3 @@
-import { Footer } from "@/components/footer/Footer";
 import { Header } from "@/components/header/header";
 
 import Link from "next/link";
@@ -10,6 +9,7 @@ export default function RsiHeatMapLayout({
 }) {
   return (
     <div>
+      <title>The Alchemist - Heatmap</title>
       <section className="mx-2 sm:mx-4 md:mx-10 xl:mx-20 2xl:mx-36 mt-7 mb-14">
         <Header />
         <div className="flex items-center justify-center text-center text-xs leading-5 font-medium bg-[#F0F7FF] h-11 rounded-lg mt-8">
@@ -24,7 +24,6 @@ export default function RsiHeatMapLayout({
           {children}
         </div>
       </section>
-      <Footer />
     </div>
   );
 }

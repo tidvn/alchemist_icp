@@ -1,5 +1,5 @@
 import type { Config } from "tailwindcss";
-import flowbite from "flowbite-react/tailwind";
+// import flowbite from "flowbite-react/tailwind";
 
 import defaultTheme from "tailwindcss/defaultTheme";
 
@@ -8,7 +8,8 @@ const config: Config = {
     "./src/pages/**/*.{js,ts,jsx,tsx,mdx}",
     "./src/components/**/*.{js,ts,jsx,tsx,mdx}",
     "./src/app/**/*.{js,ts,jsx,tsx,mdx}",
-    flowbite.content(),
+    "./node_modules/flowbite/**/*.js",
+    "./node_modules/flowbite-react/**/*.{js,jsx,ts,tsx}",
   ],
   theme: {
     screens: {
@@ -63,7 +64,7 @@ const config: Config = {
   plugins: [
     require("@tailwindcss/typography"),
     require("tailwindcss-radix")({ variantPrefix: "" }),
-    flowbite.plugin(),
+    require("flowbite/plugin"),
   ],
 };
 export default config;

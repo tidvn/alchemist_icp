@@ -1,0 +1,37 @@
+[
+  {
+    "coin": "UNI",
+    "price": "$9.69",
+    "priceChange": "+25%"
+  },
+  {
+    "coin": "BNB",
+    "price": "$401,90",
+    "priceChange": "+5%"
+  },
+  {
+    "coin": "USDT",
+    "price": "$1.2",
+    "priceChange": "-15%"
+  },
+  {
+    "coin": "BFT",
+    "price": "$0.32",
+    "priceChange": "+5%"
+  },
+  {
+    "coin": "LUNA",
+    "price": "$91,48",
+    "priceChange": "+3%"
+  },
+  {
+    "coin": "BUSD",
+    "price": "$1,2",
+    "priceChange": "-15%"
+  },
+  {
+    "coin": "LINK",
+    "price": "$14,97",
+    "priceChange": "+8%"
+  }
+]

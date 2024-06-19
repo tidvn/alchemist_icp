@@ -1,0 +1,41 @@
+{
+  "main": [
+    {
+      "title": "Al- Trade",
+      "link": "/trade",
+      "hardLink": true
+    },
+    {
+      "title": "Social",
+      "link": "/social",
+      "hardLink": true
+    },
+    {
+      "title": "Academy",
+      "link": "/academy"
+    },
+    {
+      "title": "News",
+      "link": "/news",
+      "hardLink": true
+    }
+  ],
+  "academy": [
+    {
+      "title": "Start Learning",
+      "link": "/academy/start-learning"
+    },
+    {
+      "title": "Bookmarks",
+      "link": "/academy/bookmarks"
+    },
+    {
+      "title": "Free Courses",
+      "link": "/academy/free-courses"
+    },
+    {
+      "title": "Glossaries",
+      "link": "/academy/glossaries"
+    }
+  ]
+}
