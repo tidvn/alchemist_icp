@@ -26,11 +26,29 @@ import members from "../../../data/member.json";
 import advisors from "../../../data/advisors.json";
 import api from "@/axios";
 import { Autoplay } from "swiper/modules";
+import { number } from "prop-types";
 // import prices from "../../../data/prices.json";
 
 function LandingPage() {
   // const navigate = useNavigate();
   const [prices, setPrices] = useState([]);
+
+  function formatNumberWithCommas(number: number) {
+    // Handle negative numbers by remembering the sign
+    const sign = number < 0 ? "-" : "";
+    number = Math.abs(number);
+
+    // Split the number into integer and decimal parts
+    let [integerPart, decimalPart] = number.toString().split(".");
+
+    // Add commas to the integer part
+    integerPart = integerPart.replace(/\B(?=(\d{3})+(?!\d))/g, ",");
+
+    // Rejoin the integer and decimal parts
+    return decimalPart
+      ? `${sign}${integerPart}.${decimalPart}`
+      : `${sign}${integerPart}`;
+  }
 
   const fetchPrice = async () => {
     try {
@@ -38,7 +56,7 @@ function LandingPage() {
 
       const formatData = data.map((price: any) => {
         return {
-          price: "$" + price.price,
+          price: "$" + formatNumberWithCommas(price.price),
           coin: price.coin.replace(/USDT$/, ""),
           priceChange: price.priceChange.toString() + "%",
         };
