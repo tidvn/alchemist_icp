@@ -1,15 +1,18 @@
+"use client";
 import { useEffect, useRef, useState } from "react";
-import { useRouter } from "next/router";
+// import { useLocation, useNavigate } from "react-router-dom";
 import { Button } from "flowbite-react";
 import * as Avatar from "@radix-ui/react-avatar";
 import * as DropdownMenu from "@radix-ui/react-dropdown-menu";
 
-import Link from "../Elements/Link";
-import useUser from "../../libs/useUser";
-import { getSiteUrl } from "../../libs/links";
-import navigationMenus from "../../data/navigations";
-import ConnectWallet from "../Wallet/ConnectWallet";
-import { useWallet } from "use-wallet";
+// import Link from "../Elements/Link";
+// import useUser from "../../libs/useUser";
+// import { getSiteUrl } from "../../libs/links";
+import navigationMenus from "../../data/navigations.json";
+// import ConnectWallet from "../Wallet/ConnectWallet";
+// import { useWallet } from "use-wallet";
+import Link from "next/link";
+import classNames from "classnames";
 
 const maskAccount = (address) => {
   return `${address.slice(0, 6)}...${address.slice(-4)}`;
@@ -62,12 +65,13 @@ const UserDropDown = ({ user }) => {
                 fill="#333333"
               />
             </svg>
+
             <Link href="/account" className="grow hover:underline">
               Your Profile
             </Link>
           </DropdownMenu.Item>
 
-          <DropdownMenu.Item className="DropdownMenuItem">
+          <DropdownMenu.Item className="DropdownMenuItem group">
             <svg
               className="w-4 h-4"
               width="16"
@@ -79,12 +83,13 @@ const UserDropDown = ({ user }) => {
               <path
                 fillRule="evenodd"
                 clipRule="evenodd"
-                d="M5.29774 2.28033C5.45294 2.12511 5.683 2.07992 5.88814 2.16594L5.95547 2.2072L13.0555 7.04168C13.2118 7.15054 13.2925 7.33165 13.2925 7.52349C13.2925 7.71532 13.2118 7.89643 13.0555 8.0053L5.95547 12.8398C5.75147 12.9846 5.48274 12.968 5.29774 12.7885C5.14253 12.6333 5.09734 12.4032 5.18336 12.1981L5.22461 12.1308L11.6348 7.52349L5.22461 2.91614C5.02934 2.76593 4.98948 2.48623 5.12301 2.28707L5.18336 2.2072L5.29774 2.28033Z"
+                d="M7.55427 1.34766C9.14042 1.34766 10.435 2.59695 10.5077 4.16515L10.5109 4.30432V4.92632C10.5109 5.20247 10.2871 5.42632 10.0109 5.42632C9.7578 5.42632 9.54861 5.23822 9.5155 4.99417L9.51093 4.92632V4.30432C9.51093 3.26239 8.69625 2.4105 7.66922 2.35098L7.55427 2.34766H4.30427C3.2629 2.34766 2.4111 3.16241 2.35159 4.18937L2.34827 4.30432V11.7243C2.34827 12.7662 3.16287 13.6181 4.18937 13.6777L4.30427 13.681H7.56093C8.59917 13.681 9.44829 12.8693 9.50762 11.8462L9.51093 11.7317V11.103C9.51093 10.8268 9.73479 10.603 10.0109 10.603C10.2641 10.603 10.4733 10.7911 10.5064 11.0351L10.5109 11.103V11.7317C10.5109 13.3125 9.2664 14.603 7.70383 14.6776L7.56093 14.681H4.30427C2.71864 14.681 1.42416 13.4316 1.35148 11.8635L1.34827 11.7243V4.30432C1.34827 2.71829 2.59744 1.42356 4.16514 1.35087L4.30427 1.34766H7.55427ZM14.8932 8.36791C14.9101 8.35097 14.9259 8.33283 14.9402 8.31361L14.9413 8.31234C15.0873 8.11628 15.0711 7.83753 14.8926 7.65988L12.9406 5.71654L12.8844 5.66826C12.6884 5.52346 12.4106 5.54021 12.2335 5.71812L12.1852 5.7743C12.0404 5.97037 12.0572 6.24811 12.2351 6.42522L13.3296 7.51432H6.51233L6.44448 7.51889C6.20043 7.552 6.01233 7.76119 6.01233 8.01432C6.01233 8.29047 6.23619 8.51432 6.51233 8.51432H13.3284L12.235 9.60394L12.1865 9.65992C12.0409 9.85536 12.0564 10.1332 12.2336 10.311C12.4284 10.5067 12.745 10.5074 12.9407 10.3125L14.8927 8.36849L14.8932 8.36791Z"
                 fill="#333333"
               />
             </svg>
-            <Link href="/logout" className="grow hover:underline">
-              Log out
+
+            <Link href="/logout" className="grow hover:underline" forceRefresh>
+              Logout
             </Link>
           </DropdownMenu.Item>
         </DropdownMenu.Content>
@@ -93,146 +98,228 @@ const UserDropDown = ({ user }) => {
   );
 };
 
-export default function Header() {
-  const { user, isLoading } = useUser();
-  const [toggle, setToggle] = useState(false);
-  const { account } = useWallet();
-  const router = useRouter();
+const Header = () => {
+  // const { user } = useUser();
+  // const navigate = useNavigate();
 
-  const toggleNav = () => {
-    setToggle(!toggle);
+  // const location = useLocation();
+  const [user, setUser] = useState(null);
+  const [wallet, setWallet] = useState(null);
+  // const isAcademyLocation = location.pathname.includes("/academy");
+  const isAcademyLocation = false;
+
+  const drawer = useRef(null);
+  const drawerEl = useRef(null);
+  const [hiddenMobileMenu, setHiddenMobileMenu] = useState(true);
+  const toggleDrawer = () => {
+    setHiddenMobileMenu(!hiddenMobileMenu);
+    drawer.current?.toggle();
   };
 
+  // const wallet = useWallet();
+  const [showConnectWallet, setShowConnectWallet] = useState(false);
+  const mobileMenuClasses = classNames(
+    "md:hidden fixed z-40 top-[60px] h-[calc(100vh-60px)]] p-0 overflow-y-auto bg-white w-full",
+    { hidden: hiddenMobileMenu }
+  );
+
+  useEffect(() => {
+    if (window.Drawer) {
+      drawer.current = new window.Drawer(drawerEl.current, {
+        placement: "bottom",
+        bodyScrolling: false,
+      });
+    }
+  }, []);
+
+  let links = isAcademyLocation
+    ? navigationMenus.academy
+    : navigationMenus.main;
+
   return (
-    <header className="relative h-[75px] lg:h-[100px] z-50">
-      <div className="container mx-auto px-5 md:px-10 lg:px-20">
-        <div className="relative flex items-center justify-between h-[75px] lg:h-[100px]">
-          <div className="relative flex items-center justify-start w-[160px] md:w-[220px] lg:w-[300px] z-20">
+    <header>
+      {!isAcademyLocation && (
+        // <ConnectWallet
+        //   isOpen={showConnectWallet}
+        //   onClose={() => setShowConnectWallet(false)}
+        // />
+        <div></div>
+      )}
+
+      <nav className="bg-white/90 backdrop-blur py-2.5 fixed w-full z-[19999] top-0 left-0">
+        <div className="container flex flex-wrap items-center justify-between mx-auto">
+          <Link href="/" className="flex items-center">
+            <img src="/logo.svg" className="mr-2 h-8" alt="The Alchemist" />
+            <span className="self-center text-xl lg:text-3xl font-semibold whitespace-nowrap text-primary">
+              The Alchemist
+            </span>
+          </Link>
+
+          <div className="flex items-center md:order-2 gap-4 lg:gap-8">
+            {!user && (
+              <Link
+                className="hidden lg:inline-block text-primary font-bold font-base"
+                href="/login"
+                // isNavLink
+              >
+                Login
+              </Link>
+            )}
+
+            {isAcademyLocation && !user && (
+              <Button
+                className="hidden lg:block"
+                pill
+                // onClick={() => navigate(getSiteUrl("/register"))}
+              >
+                Sign Up
+              </Button>
+            )}
+
+            {!isAcademyLocation && (
+              <Button
+                className="hidden lg:block"
+                pill
+                // onClick={() => setShowConnectWallet(true)}
+              >
+                {wallet?.isConnected()
+                  ? maskAccount(wallet.account)
+                  : "Connect Wallet"}
+              </Button>
+            )}
+
+            {user && <UserDropDown user={user} />}
+
             <button
-              onClick={toggleNav}
-              aria-controls="mobile-menu"
+              onClick={toggleDrawer}
+              data-collapse-toggle="navbar-sticky"
+              type="button"
+              className="flex-shrink-0 inline-flex items-center p-2 text-sm text-gray-500 rounded-full md:hidden hover:bg-gray-100 focus:outline-none focus:ring-2 focus:ring-gray-200"
+              aria-controls="navbar-sticky"
               aria-expanded="false"
-              className="lg:hidden px-2 text-gray-400 rounded-md focus:outline-none focus:ring-2 focus:ring-inset focus:ring-gray-400"
             >
               <span className="sr-only">Open main menu</span>
               <svg
-                className="block w-6 h-6"
-                xmlns="http://www.w3.org/2000/svg"
-                fill="none"
+                width="24"
+                height="24"
                 viewBox="0 0 24 24"
-                stroke="currentColor"
-                aria-hidden="true"
+                fill="none"
+                xmlns="http://www.w3.org/2000/svg"
               >
-                <path
-                  strokeLinecap="round"
-                  strokeLinejoin="round"
-                  strokeWidth="2"
-                  d="M4 6h16M4 12h16m-7 6h7"
+                <rect
+                  x="3"
+                  y="5.5"
+                  width="18"
+                  height="2"
+                  rx="1"
+                  fill="#111111"
+                />
+                <rect
+                  x="3"
+                  y="11"
+                  width="12"
+                  height="2"
+                  rx="1"
+                  fill="#111111"
+                />
+                <rect
+                  x="3"
+                  y="16.5"
+                  width="15"
+                  height="2"
+                  rx="1"
+                  fill="#111111"
                 />
               </svg>
             </button>
-
-            <Link href="/" className="block">
-              <img
-                src="/icons/main-logo.svg"
-                alt="logo"
-                className="block w-full"
-              />
-            </Link>
           </div>
 
-          <div className="flex items-center justify-end lg:hidden flex-1">
-            {!isLoading && (
-              <>
-                {!user ? (
-                  <Link href="/login">
-                    <Button color="gray">Sign In</Button>
-                  </Link>
-                ) : (
-                  <UserDropDown user={user} />
-                )}
-              </>
-            )}
-          </div>
-
-          <div className="hidden lg:flex items-center justify-between absolute w-full h-full top-0 left-0">
-            <div className="h-full flex items-center justify-center">
-              <nav className="flex items-center space-x-8 xl:space-x-14 2xl:space-x-20">
-                {navigationMenus.map((menu, i) => (
+          <div
+            className="items-center justify-between hidden w-full md:flex md:w-auto md:order-1"
+            // id="navbar-sticky"
+          >
+            <ul className="main-menu">
+              {links.map((link, index) => (
+                <li key={index}>
                   <Link
-                    key={i}
-                    href={menu.path}
-                    className="block font-semibold text-base md:text-lg xl:text-xl transition hover:text-blue-400"
+                    // isNavLink
+                    href={link.link}
+                    // forceRefresh={link.hardLink || false}
                   >
-                    {menu.label}
+                    {link.title}
                   </Link>
-                ))}
-              </nav>
-            </div>
-
-            <div className="flex items-center justify-end gap-4 xl:gap-6">
-              {!isLoading && (
-                <>
-                  {!user ? (
-                    <Link href="/login">
-                      <Button color="gray">Sign In</Button>
-                    </Link>
-                  ) : (
-                    <UserDropDown user={user} />
-                  )}
-                </>
-              )}
-
-              {account ? (
-                <Button
-                  className="min-w-[60px] max-w-[100px] overflow-hidden bg-white/50 border border-gray-300 px-4 py-2 text-sm font-semibold text-gray-800 rounded-md shadow-sm focus:outline-none"
-                  onClick={() => router.push("/wallet")}
-                >
-                  {maskAccount(account)}
-                </Button>
-              ) : (
-                <ConnectWallet />
-              )}
-            </div>
+                </li>
+              ))}
+            </ul>
           </div>
         </div>
-      </div>
+      </nav>
 
       <div
-        className={`${
-          toggle ? "block" : "hidden"
-        } lg:hidden absolute top-0 left-0 w-full z-10`}
+        ref={drawerEl}
+        id="drawer-navigation"
+        className={mobileMenuClasses}
+        style={{ height: "calc(100vh - 60px)" }}
+        tabIndex="-1"
+        aria-labelledby="drawer-navigation-label"
       >
-        <div className="bg-white shadow-lg">
-          <div className="px-2 pt-2 pb-3 space-y-1 sm:px-3">
-            {navigationMenus.map((menu, i) => (
-              <Link
-                key={i}
-                href={menu.path}
-                className="block px-3 py-2 rounded-md text-base font-medium text-gray-700 hover:text-gray-900 hover:bg-gray-50"
-              >
-                {menu.label}
-              </Link>
-            ))}
+        <div className="relative py-8 px-6 overflow-y-auto h-full flex flex-col md:hidden justify-between gap-4">
+          <div className="absolute z-10 bottom-2 left-0 right-0">
+            <button
+              onClick={toggleDrawer}
+              className="block appearance-none p-0 m-0 border-0 bg-neutral1 w-32 h-[5px] rounded-full mx-auto"
+            />
           </div>
 
-          <div className="px-2 py-3 border-t border-gray-200">
-            {!isLoading && (
+          <ul className="mobile-menu space-y-4 -mx-2">
+            {links.map((link, index) => (
+              <li key={index}>
+                <Link
+                  // isNavLink
+                  href={link.link}
+                  className="flex items-center p-2 text-xl font-medium text-neutral1 rounded-lg hover:bg-gray-100"
+                  onClick={toggleDrawer}
+                  // forceRefresh={link.hardLink || false}
+                >
+                  {link.title}
+                </Link>
+              </li>
+            ))}
+          </ul>
+
+          <div className="flex flex-col items-center pb-8">
+            {isAcademyLocation && !user && (
               <>
-                {!user ? (
-                  <Link href="/login">
-                    <Button color="gray" className="w-full">
-                      Sign In
-                    </Button>
-                  </Link>
-                ) : (
-                  <UserDropDown user={user} />
-                )}
+                <Button
+                  className="justify-center"
+                  pill
+                  fullSized
+                  onClick={() => navigate(getSiteUrl("/register"))}
+                >
+                  Sign Up
+                </Button>
+
+                <a href="/" className="text-primary font-semibold text-sm mt-6">
+                  Login
+                </a>
               </>
+            )}
+
+            {!isAcademyLocation && (
+              <Button
+                className="justify-center"
+                pill
+                fullSized
+                onClick={() => setShowConnectWallet(true)}
+              >
+                Connect Wallet
+              </Button>
             )}
           </div>
         </div>
       </div>
     </header>
   );
-}
+};
+
+export default Header;

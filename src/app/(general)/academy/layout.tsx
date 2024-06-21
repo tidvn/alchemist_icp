@@ -1,7 +1,7 @@
 import { Footer } from "@/components/footer/Footer";
-import Header from "@/components/Layout/Header";
+import React from "react";
 
-export default function HomeLayout({
+export default function AcademyLayout({
   children,
 }: {
   children: React.ReactNode;
@@ -10,7 +10,6 @@ export default function HomeLayout({
     <div>
       <title>The Alchemist - Home</title>
       <section>
-        <Header />
         <div>{children}</div>
         <Footer />
       </section>

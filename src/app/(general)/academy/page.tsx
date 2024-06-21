@@ -115,10 +115,10 @@ export default function Academy() {
                 <CarouselPosts posts={topics} />
               </div>
             </div>
-
             <div className="lg:col-span-2">
               <Tabs.Group
                 aria-label="Tabs with underline"
+                // @ts-ignore
                 style="light"
                 className="gap-0"
               >

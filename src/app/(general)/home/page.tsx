@@ -1,10 +1,12 @@
 "use client";
-import React from "react";
+import React, { useEffect } from "react";
 // import { useNavigate } from "react-router-dom";
 import { Button } from "flowbite-react";
 import { Swiper, SwiperSlide } from "swiper/react";
+import SwiperCore from "swiper";
 import { Parallax } from "react-scroll-parallax";
 import Atropos from "atropos/react";
+import { useState } from "react";
 
 // import { getSiteUrl } from "../libs/links";
 import TeamMember from "../../../components/Member/TeamMember";
@@ -22,10 +24,37 @@ import CardLayout2 from "../../../components/Card/CardLayout2";
 
 import members from "../../../data/member.json";
 import advisors from "../../../data/advisors.json";
-import prices from "../../../data/prices.json";
+import api from "@/axios";
+import { Autoplay } from "swiper/modules";
+// import prices from "../../../data/prices.json";
 
 function LandingPage() {
   // const navigate = useNavigate();
+  const [prices, setPrices] = useState([]);
+
+  const fetchPrice = async () => {
+    try {
+      const { data } = await api.get("/coin-price");
+
+      const formatData = data.map((price: any) => {
+        return {
+          price: "$" + price.price,
+          coin: price.coin.replace(/USDT$/, ""),
+          priceChange: price.priceChange.toString() + "%",
+        };
+      });
+      setPrices(formatData);
+    } catch (err) {
+      setPrices([]);
+    }
+  };
+
+  useEffect(() => {
+    fetchPrice();
+
+    const intervalId = setInterval(fetchPrice, 120000);
+    return () => clearInterval(intervalId);
+  }, []);
 
   return (
     <>
@@ -126,36 +155,45 @@ function LandingPage() {
       <section>
         <div className="container">
           <div className="flex justify-center items-center">
-            <Swiper
-              breakpoints={{
-                0: {
-                  spaceBetween: 16,
-                  slidesPerView: 1.5,
-                },
-                480: {
-                  spaceBetween: 16,
-                  slidesPerView: 2.5,
-                },
-                720: {
-                  spaceBetween: 16,
-                  slidesPerView: 3.5,
-                },
-                920: {
-                  spaceBetween: 50,
-                  slidesPerView: 4.5,
-                },
-                1440: {
-                  spaceBetween: 50,
-                  slidesPerView: 7,
-                },
-              }}
-            >
-              {prices.map((price, index) => (
-                <SwiperSlide key={index}>
-                  <CoinPrice key={index} coinInfo={price} />
-                </SwiperSlide>
-              ))}
-            </Swiper>
+            {prices.length > 0 && (
+              <Swiper
+                breakpoints={{
+                  0: {
+                    spaceBetween: 16,
+                    slidesPerView: 1.5,
+                  },
+                  480: {
+                    spaceBetween: 16,
+                    slidesPerView: 2.5,
+                  },
+                  720: {
+                    spaceBetween: 16,
+                    slidesPerView: 3.5,
+                  },
+                  920: {
+                    spaceBetween: 50,
+                    slidesPerView: 4.5,
+                  },
+                  1440: {
+                    spaceBetween: 50,
+                    slidesPerView: 7,
+                  },
+                }}
+                speed={1200}
+                loop={true}
+                modules={[Autoplay]}
+                autoplay={{
+                  delay: 1000,
+                  disableOnInteraction: false,
+                }}
+              >
+                {prices.map((price, index) => (
+                  <SwiperSlide key={index}>
+                    <CoinPrice key={index} coinInfo={price} />
+                  </SwiperSlide>
+                ))}
+              </Swiper>
+            )}
           </div>
         </div>
       </section>

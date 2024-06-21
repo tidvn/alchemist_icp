@@ -8,11 +8,13 @@ import AOS from "aos";
 import { ParallaxProvider } from "react-scroll-parallax";
 
 import { Swiper, SwiperSlide } from "swiper/react";
+import { Autoplay, Pagination, Navigation } from 'swiper/modules';
 
 import "swiper/css";
 import "swiper/css/a11y";
 import "swiper/css/navigation";
 import "swiper/css/pagination";
+import "swiper/css/autoplay";
 import "atropos/css";
 import "aos/dist/aos.css";
 
