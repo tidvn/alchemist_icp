@@ -435,7 +435,7 @@ function LandingPage() {
 
                 <svg
                   className="vertical-line__arrow"
-                  width="16"
+                  width="14"
                   height="9"
                   viewBox="0 0 16 9"
                   fill="none"
@@ -527,7 +527,7 @@ function LandingPage() {
 
                 <svg
                   className="vertical-line__arrow"
-                  width="16"
+                  width="14"
                   height="9"
                   viewBox="0 0 16 9"
                   fill="none"
