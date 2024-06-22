@@ -5,6 +5,8 @@ import { Button } from "flowbite-react";
 import * as Avatar from "@radix-ui/react-avatar";
 import * as DropdownMenu from "@radix-ui/react-dropdown-menu";
 
+import { MegaMenu } from 'flowbite-react';
+
 // import Link from "../Elements/Link";
 // import useUser from "../../libs/useUser";
 // import { getSiteUrl } from "../../libs/links";
@@ -13,6 +15,7 @@ import navigationMenus from "../../data/navigations.json";
 // import { useWallet } from "use-wallet";
 import Link from "next/link";
 import classNames from "classnames";
+import { Dropdown, Menu } from "antd";
 
 const maskAccount = (address) => {
   return `${address.slice(0, 6)}...${address.slice(-4)}`;
@@ -122,6 +125,47 @@ const Header = () => {
     "md:hidden fixed z-40 top-[60px] h-[calc(100vh-60px)]] p-0 overflow-y-auto bg-white w-full",
     { hidden: hiddenMobileMenu }
   );
+
+  const items = [
+    {
+      key: "1",
+      label: (
+        <a
+          target="_blank"
+          rel="noopener noreferrer"
+          href="https://www.antgroup.com"
+        >
+          1st menu item
+        </a>
+      ),
+    },
+    {
+      key: "2",
+      label: (
+        <a
+          target="_blank"
+          rel="noopener noreferrer"
+          href="https://www.aliyun.com"
+        >
+          2nd menu item (disabled)
+        </a>
+      ),
+      disabled: true,
+    },
+    {
+      key: "3",
+      label: (
+        <a
+          target="_blank"
+          rel="noopener noreferrer"
+          href="https://www.luohanacademy.com"
+        >
+          3rd menu item (disabled)
+        </a>
+      ),
+      disabled: true,
+    },
+  ];
 
   useEffect(() => {
     if (window.Drawer) {
@@ -250,6 +294,15 @@ const Header = () => {
                   </Link>
                 </li>
               ))}
+              {/* {links.map((link, index) =>
+                link.title !== "AI-trade" ? (
+                  <li key={index}>
+                    <Link href={link.link}>{link.title}</Link>
+                  </li>
+                ) : (
+                  
+                )
+              )} */}
             </ul>
           </div>
         </div>
