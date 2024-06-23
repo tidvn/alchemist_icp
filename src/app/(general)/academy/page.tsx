@@ -116,10 +116,10 @@ export default function Academy() {
               </div>
             </div>
             <div className="lg:col-span-2">
-              <Tabs.Group
+              <Tabs
                 aria-label="Tabs with underline"
                 // @ts-ignore
-                style="light"
+                // style="light"
                 className="gap-0"
               >
                 <Tabs.Item active title="Featured" className="p-0">
@@ -151,7 +151,7 @@ export default function Academy() {
                     ))}
                   </ul>
                 </Tabs.Item>
-              </Tabs.Group>
+              </Tabs>
             </div>
           </div>
         </div>
@@ -217,7 +217,7 @@ export default function Academy() {
               <Button pill className="group">
                 See more relevant content
                 <svg
-                  className="ml-2 transition group-hover:translate-x-2"
+                  className="ml-2 mt-2 transition group-hover:translate-x-2"
                   width="17"
                   height="8"
                   viewBox="0 0 17 8"

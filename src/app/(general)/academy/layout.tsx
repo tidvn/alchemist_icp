@@ -1,3 +1,4 @@
+import Header from "@/components/Layout/Header";
 import { Footer } from "@/components/footer/Footer";
 import React from "react";
 
@@ -9,7 +10,8 @@ export default function AcademyLayout({
   return (
     <div>
       <title>The Alchemist - Home</title>
-      <section>
+      <Header />
+      <section className="mt-16">
         <div>{children}</div>
         <Footer />
       </section>

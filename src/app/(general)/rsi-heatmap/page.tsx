@@ -107,7 +107,7 @@ export default function HeatMap() {
             weight="bold"
             width={24}
             height={24}
-            className="absolute right-6 top-8 z-50 cursor-pointer"
+            className="absolute right-6 top-8 z-20 cursor-pointer"
             onClick={handle.enter}
           />
           <FullScreen

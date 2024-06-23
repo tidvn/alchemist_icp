@@ -24,11 +24,15 @@ export const TradeWithCandleStick = () => {
           className="!p-2 !h-14 !w-full !text-xs sm:!w-[300px] lg:!w-full"
         >
           <div>
-            No idea what <span className="!font-bold">Tweezer Top</span> is?
+            <div>
+              No idea what <span className="!font-bold">Tweezer Top</span> is?
+            </div>
+            <Link href="#" className="font-bold">
+              <div className="text-white font-semibold text-sm mt-1">
+                Learn now!
+              </div>
+            </Link>
           </div>
-          <Link href="#" className="font-bold">
-            Learn now!
-          </Link>
         </Button>
       </div>
       <div className="flex justify-center">
