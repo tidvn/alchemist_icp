@@ -2,7 +2,7 @@
 
 import { Table } from "antd";
 import classNames from "classnames";
-import "../../app/css/rsi-heatmap/top-over-sold.css";
+import "@/app/css/rsi-heatmap/top-over-sold.css";
 import { useEffect, useState } from "react";
 const { Column } = Table;
 

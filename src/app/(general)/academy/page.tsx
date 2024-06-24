@@ -4,22 +4,22 @@ import { Button, Tabs } from "flowbite-react";
 import { Parallax } from "react-scroll-parallax";
 import Atropos from "atropos/react";
 
-import RocketIcon from "../../../components/Icons/RocketIcon";
+import RocketIcon from "../../components/Icons/RocketIcon";
 // import MoreLink from "../../../components/Elements/MoreLink";
-import MiniPost from "../../../components/Post/MiniPost";
-import RegularPost from "../../../components/Post/RegularPost";
-import CarouselPosts from "../../../components/Post/CarouselPosts";
-import OverlayPost from "../../../components/Post/OverlayPost";
-import SwiperPost from "../../../components/Post/SwiperPost";
-import TopicSelection from "../../../components/Elements/TopicSelection";
-import LevelSelection from "../../../components/Elements/LevelSelection";
+import MiniPost from "../../components/Post/MiniPost";
+import RegularPost from "../../components/Post/RegularPost";
+import CarouselPosts from "../../components/Post/CarouselPosts";
+import OverlayPost from "../../components/Post/OverlayPost";
+import SwiperPost from "../../components/Post/SwiperPost";
+import TopicSelection from "../../components/Elements/TopicSelection";
+import LevelSelection from "../../components/Elements/LevelSelection";
 
-import topics from "../../../mocks/topics.json";
-import listTopics from "../../../mocks/list-topics.json";
-import mockNews from "../../../mocks/news.json";
-import essentials from "../../../mocks/essentials.json";
-import mockNewsBlockchain from "../../../mocks/news-blockchain.json";
-import mockNewsMore from "../../../mocks/news-more.json";
+import topics from "@/app/mocks/topics.json";
+import listTopics from "@/app/mocks/list-topics.json";
+import mockNews from "@/app/mocks/news.json";
+import essentials from "@/app/mocks/essentials.json";
+import mockNewsBlockchain from "@/app/mocks/news-blockchain.json";
+import mockNewsMore from "@/app/mocks/news-more.json";
 
 export default function Academy() {
   return (

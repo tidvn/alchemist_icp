@@ -2,13 +2,13 @@
 import { Inter } from "next/font/google";
 import "./globals.css";
 import { AntdRegistry } from "@ant-design/nextjs-registry";
-import ThemeProvider from "@/contexts/ThemeProvider";
+import ThemeProvider from "@/app/contexts/ThemeProvider";
 import { useEffect } from "react";
 import AOS from "aos";
 import { ParallaxProvider } from "react-scroll-parallax";
 
 import { Swiper, SwiperSlide } from "swiper/react";
-import { Autoplay, Pagination, Navigation } from 'swiper/modules';
+import { Autoplay, Pagination, Navigation } from "swiper/modules";
 
 import "swiper/css";
 import "swiper/css/a11y";
@@ -20,7 +20,7 @@ import "aos/dist/aos.css";
 
 // Import flowbite JS
 import "flowbite";
-import { Footer } from "@/components/footer/Footer";
+import { Footer } from "@/app/components/footer/Footer";
 
 const inter = Inter({ subsets: ["latin"] });
 

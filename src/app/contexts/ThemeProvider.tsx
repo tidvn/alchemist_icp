@@ -1,6 +1,6 @@
 import { Flowbite } from "flowbite-react";
 
-import theme from "../theme";
+import theme from "@/theme";
 
 const ThemeProvider = ({
   children,

@@ -4,7 +4,7 @@ import classNames from "classnames";
 import { TopOverSoldDataItem } from "./top-over-sold";
 import { TopOverBoughtDataItem } from "./top-over-bought";
 import { useMemo } from "react";
-import { RsiType } from "@/type/type";
+import { RsiType } from "@/app/type/type";
 
 interface TradingStrategyProps {
   className?: string;

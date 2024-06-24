@@ -1,21 +1,22 @@
 "use client";
 import { useEffect, useRef, useState } from "react";
-// import { useLocation, useNavigate } from "react-router-dom";
-import { Button } from "flowbite-react";
+import { usePathname } from "next/navigation";
+import { useRouter } from "next/router";
+import { Accordion, Button } from "flowbite-react";
 import * as Avatar from "@radix-ui/react-avatar";
 import * as DropdownMenu from "@radix-ui/react-dropdown-menu";
+import "@/app/css/components/dropdown-menu.css";
 
-import { MegaMenu } from 'flowbite-react';
+import { Dropdown } from "flowbite-react";
 
 // import Link from "../Elements/Link";
 // import useUser from "../../libs/useUser";
 // import { getSiteUrl } from "../../libs/links";
-import navigationMenus from "../../data/navigations.json";
+import navigationMenus from "@/app/data/navigations.json";
 // import ConnectWallet from "../Wallet/ConnectWallet";
 // import { useWallet } from "use-wallet";
 import Link from "next/link";
 import classNames from "classnames";
-import { Dropdown, Menu } from "antd";
 
 const maskAccount = (address) => {
   return `${address.slice(0, 6)}...${address.slice(-4)}`;
@@ -103,14 +104,11 @@ const UserDropDown = ({ user }) => {
 
 const Header = () => {
   // const { user } = useUser();
-  // const navigate = useNavigate();
-
-  // const location = useLocation();
+  const pathName = usePathname();
   const [user, setUser] = useState(null);
   const [wallet, setWallet] = useState(null);
-  // const isAcademyLocation = location.pathname.includes("/academy");
-  const isAcademyLocation = false;
-
+  const isAcademyLocation = pathName.includes("/academy");
+  const isAItradeLocation = pathName.includes("/ai-trade");
   const drawer = useRef(null);
   const drawerEl = useRef(null);
   const [hiddenMobileMenu, setHiddenMobileMenu] = useState(true);
@@ -168,6 +166,7 @@ const Header = () => {
   ];
 
   useEffect(() => {
+    console.log(useRouter.pathname);
     if (window.Drawer) {
       drawer.current = new window.Drawer(drawerEl.current, {
         placement: "bottom",
@@ -179,6 +178,8 @@ const Header = () => {
   let links = isAcademyLocation
     ? navigationMenus.academy
     : navigationMenus.main;
+
+  links = isAItradeLocation ? navigationMenus.aiTrade : links;
 
   return (
     <header>
@@ -194,7 +195,16 @@ const Header = () => {
         <div className="container flex flex-wrap items-center justify-between mx-auto">
           <Link href="/" className="flex items-center">
             <img src="/logo.svg" className="mr-2 h-8" alt="The Alchemist" />
-            <span className="self-center text-xl lg:text-3xl font-semibold whitespace-nowrap text-primary">
+            {/* <span className="self-center text-xl lg:text-3xl font-semibold whitespace-nowrap text-primary">
+              The Alchemist
+            </span> */}
+            <span
+              className={
+                isAItradeLocation
+                  ? "flex md:hidden xl:flex self-center text-xl lg:text-3xl font-semibold whitespace-nowrap text-primary"
+                  : "self-center text-xl lg:text-3xl font-semibold whitespace-nowrap text-primary"
+              }
+            >
               The Alchemist
             </span>
           </Link>
@@ -282,8 +292,8 @@ const Header = () => {
             className="items-center justify-between hidden w-full md:flex md:w-auto md:order-1"
             // id="navbar-sticky"
           >
-            <ul className="main-menu">
-              {links.map((link, index) => (
+            <ul className="main-menu button-dropdown">
+              {/* {links.map((link, index) => (
                 <li key={index}>
                   <Link
                     // isNavLink
@@ -293,16 +303,42 @@ const Header = () => {
                     {link.title}
                   </Link>
                 </li>
-              ))}
-              {/* {links.map((link, index) =>
-                link.title !== "AI-trade" ? (
-                  <li key={index}>
-                    <Link href={link.link}>{link.title}</Link>
-                  </li>
-                ) : (
-                  
-                )
-              )} */}
+              ))} */}
+              {links.map((link, index) => {
+                if (link?.children) {
+                  // return <li key={index}>{link.title}</li>;
+                  return (
+                    <Dropdown
+                      key={index}
+                      label={link.title}
+                      dismissOnClick={false}
+                      inline
+                      className="text-neutral1"
+                    >
+                      {link.children.map((child, childIndex) => (
+                        <div key={childIndex}>
+                          <Link href={child.link}>
+                            <Dropdown.Item>{child.title}</Dropdown.Item>
+                          </Link>
+                        </div>
+                      ))}
+                      {/* <Dropdown.Item>RSI Heatmap</Dropdown.Item>
+                      <Dropdown.Item>Fibonacci</Dropdown.Item> */}
+                    </Dropdown>
+                  );
+                } else {
+                  return (
+                    <li key={index}>
+                      <Link
+                        href={link.link}
+                        // forceRefresh={link.hardLink || false}
+                      >
+                        {link.title}
+                      </Link>
+                    </li>
+                  );
+                }
+              })}
             </ul>
           </div>
         </div>
@@ -325,19 +361,48 @@ const Header = () => {
           </div>
 
           <ul className="mobile-menu space-y-4 -mx-2">
-            {links.map((link, index) => (
-              <li key={index}>
-                <Link
-                  // isNavLink
-                  href={link.link}
-                  className="flex items-center p-2 text-xl font-medium text-neutral1 rounded-lg hover:bg-gray-100"
-                  onClick={toggleDrawer}
-                  // forceRefresh={link.hardLink || false}
-                >
-                  {link.title}
-                </Link>
-              </li>
-            ))}
+            {links.map((link, index) => {
+              if (link?.children) {
+                return (
+                  <Accordion className="border-0" key={index}>
+                    <Accordion.Panel className="">
+                      <Accordion.Title className="p-2 !border-0 !rounded-lg ring-0 focus:ring-0">
+                        <div className="text-xl font-medium text-[#111] !border-0">
+                          {link.title}
+                        </div>
+                      </Accordion.Title>
+                      <Accordion.Content className="!border-0 py-0">
+                        <div>
+                          {link.children.map((child, childIndex) => (
+                            <div key={childIndex} className="mt-4">
+                              <Link
+                                href={child.link}
+                                className="flex items-center p-2 text-lg font-medium text-neutral1 rounded-lg hover:bg-gray-100"
+                                onClick={toggleDrawer}
+                              >
+                                {child.title}
+                              </Link>
+                            </div>
+                          ))}
+                        </div>
+                      </Accordion.Content>
+                    </Accordion.Panel>
+                  </Accordion>
+                );
+              } else {
+                return (
+                  <li key={index}>
+                    <Link
+                      href={link.link}
+                      className="flex items-center p-2 text-xl font-medium text-neutral1 rounded-lg hover:bg-gray-100"
+                      onClick={toggleDrawer}
+                    >
+                      {link.title}
+                    </Link>
+                  </li>
+                );
+              }
+            })}
           </ul>
 
           <div className="flex flex-col items-center pb-8">

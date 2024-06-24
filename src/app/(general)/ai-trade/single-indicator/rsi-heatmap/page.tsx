@@ -1,23 +1,23 @@
 "use client";
 import { useEffect, useState } from "react";
-import { RsiFilter } from "@/components/rsi-heatmap/filter";
-import { HeatMapChart } from "@/components/rsi-heatmap/heatmap";
-import { ManagePortfolio } from "@/components/rsi-heatmap/manage-portfolio";
-import { OderInfomation } from "@/components/rsi-heatmap/order-info";
+import { RsiFilter } from "@/app/components/rsi-heatmap/filter";
+import { HeatMapChart } from "@/app/components/rsi-heatmap/heatmap";
+import { ManagePortfolio } from "@/app/components/rsi-heatmap/manage-portfolio";
+import { OderInfomation } from "@/app/components/rsi-heatmap/order-info";
 import {
   TopOverBought,
   TopOverBoughtDataItem,
-} from "@/components/rsi-heatmap/top-over-bought";
+} from "@/app/components/rsi-heatmap/top-over-bought";
 import {
   TopOverSold,
   TopOverSoldDataItem,
-} from "@/components/rsi-heatmap/top-over-sold";
-import { TradeWithCandleStick } from "@/components/rsi-heatmap/trade-with-candle-stick";
-import { TradingStrategy } from "@/components/rsi-heatmap/trading-strategy";
+} from "@/app/components/rsi-heatmap/top-over-sold";
+import { TradeWithCandleStick } from "@/app/components/rsi-heatmap/trade-with-candle-stick";
+import { TradingStrategy } from "@/app/components/rsi-heatmap/trading-strategy";
 import { ArrowsOutSimple } from "@phosphor-icons/react/dist/ssr";
 import { FullScreen, useFullScreenHandle } from "react-full-screen";
-import { RsiType, TimeType } from "@/type/type";
-import api from "@/axios";
+import { RsiType, TimeType } from "@/app/type/type";
+import api from "@/app/axios";
 import { Spin } from "antd";
 
 export default function HeatMap() {

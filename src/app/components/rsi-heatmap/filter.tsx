@@ -1,5 +1,5 @@
 "use client";
-import { RsiType, TimeType } from "@/type/type";
+import { RsiType, TimeType } from "@/app/type/type";
 import { Button } from "antd";
 import classNames from "classnames";
 import Image from "next/image";

@@ -1,0 +1,75 @@
+{
+  "main": [
+    {
+      "title": "AI-trade",
+      "link": "/ai-trade/single-indicator/rsi-heatmap",
+      "hardLink": true
+    },
+    {
+      "title": "Social",
+      "link": "/social",
+      "hardLink": true
+    },
+    {
+      "title": "Academy",
+      "link": "/academy"
+    },
+    {
+      "title": "News",
+      "link": "/news",
+      "hardLink": true
+    }
+  ],
+  "academy": [
+    {
+      "title": "Start Learning",
+      "link": "/academy/start-learning"
+    },
+    {
+      "title": "Bookmarks",
+      "link": "/academy/bookmarks"
+    },
+    {
+      "title": "Free Courses",
+      "link": "/academy/free-courses"
+    },
+    {
+      "title": "Glossaries",
+      "link": "/academy/glossaries"
+    }
+  ],
+  "aiTrade": [
+    {
+      "title": "Single Indicator",
+      "link": "/ai-trade",
+
+      "children": [
+        {
+          "title": "RSI Heatmap",
+          "link": "/ai-trade/single-indicator/rsi-heatmap",
+          "hardLink": true
+        },
+        {
+          "title": "Fibonacci",
+          "link": "/ai-trade/single-indicator/fibonacci",
+          "hardLink": true
+        }
+      ]
+    },
+    {
+      "title": "Confluence Indicators",
+      "link": "/ai-trade/confluence-indicators",
+      "hardLink": true
+    },
+    {
+      "title": "Chartpatterns",
+      "link": "/ai-trade/chartpatterns",
+      "hardLink": true
+    },
+    {
+      "title": "AI Predictions",
+      "link": "/ai-trade/ai-predictions",
+      "hardLink": true
+    }
+  ]
+}

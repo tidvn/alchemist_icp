@@ -1,5 +1,5 @@
-import Header from "@/components/Layout/Header";
-import { Footer } from "@/components/footer/Footer";
+import Header from "@/app/components/Layout/Header";
+import { Footer } from "@/app/components/footer/Footer";
 
 import Link from "next/link";
 
@@ -10,7 +10,6 @@ export default function RsiHeatMapLayout({
 }) {
   return (
     <div>
-      <Header />
       <section className="mx-2 sm:mx-4 md:mx-10 xl:mx-20 2xl:mx-36 mt-7 mb-14">
         <div className="flex items-center justify-center text-center text-xs leading-5 font-medium bg-[#F0F7FF] h-11 rounded-lg mt-16 md:mt-24">
           <div>
@@ -24,7 +23,6 @@ export default function RsiHeatMapLayout({
           {children}
         </div>
       </section>
-      <Footer />
     </div>
   );
 }
