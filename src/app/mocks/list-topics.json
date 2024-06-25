@@ -1,0 +1,70 @@
+[
+  {
+    "id": 1,
+    "name": "Bitcoin"
+  },
+  {
+    "id": 2,
+    "name": "Altcoin"
+  },
+  {
+    "id": 3,
+    "name": "Binance"
+  },
+  {
+    "id": 4,
+    "name": "Blockchain"
+  },
+  {
+    "id": 5,
+    "name": "DeFi"
+  },
+  {
+    "id": 6,
+    "name": "History"
+  },
+  {
+    "id": 7,
+    "name": "MetaVerse"
+  },
+  {
+    "id": 8,
+    "name": "Mining"
+  },
+  {
+    "id": 9,
+    "name": "NFT"
+  },
+  {
+    "id": 10,
+    "name": "Tech"
+  },
+  {
+    "id": 11,
+    "name": "Consensus"
+  },
+  {
+    "id": 12,
+    "name": "Privacy"
+  },
+  {
+    "id": 13,
+    "name": "Trading"
+  },
+  {
+    "id": 14,
+    "name": "Economics"
+  },
+  {
+    "id": 15,
+    "name": "Tutorials"
+  },
+  {
+    "id": 16,
+    "name": "Cryptography"
+  },
+  {
+    "id": 17,
+    "name": "Technical Analysis"
+  }
+]

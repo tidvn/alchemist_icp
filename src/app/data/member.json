@@ -1,0 +1,29 @@
+[
+  {
+    "name": "Trong Pham Van",
+    "role": "CEO",
+    "avatar": "/img/members/ceo.png",
+    "linkedin": "https://www.linkedin.com/in/trong-pham-van-2a11a0236/",
+    "twitter": "https://twitter.com/trongalchemist",
+    "telegram": "https://t.me/PVTrong",
+    "description": "Trong Pham is a seasoned trader and researcher specializing in cryptocurrency, technical analysis, and algorithmic trading. He has held C-level roles at a number of well-known corporations, including Vingroup, Vietnam's largest conglomerate, and Viettel, a Vietnamese global telecommunications business. He has prior expertise in establishing and managing businesses, having worked on multi-million dollar projects."
+  },
+  {
+    "name": "Louis Nguyen",
+    "role": "CTO",
+    "avatar": "/img/members/cto.png",
+    "linkedin": "https://www.linkedin.com/in/duc-loc-louis-nguyen-b3bb3a258/",
+    "twitter": "#",
+    "telegram": "https://t.me/nguyenluisducloc",
+    "description": "I am an enthusiastic, self-motivated and hardworking person who is always willing to develop my own competence and drive aggressive results for the business. I also have a solid educational background as I had been awarded a (BA) Computer Science at Hanoi University of Engineering and Technology, Vietnam. Additionally, teamwork and project management are also my strength."
+  },
+  {
+    "name": "Thien Phung",
+    "role": "CMO & CFO",
+    "avatar": "/img/members/cmo.png",
+    "linkedin": "https://www.linkedin.com/in/thien-phung-van-875500ab/",
+    "twitter": "https://twitter.com/phungvanthien",
+    "telegram": "https://t.me/phungvanthien",
+    "description": "Thien Phung is an expert in developing and building infrastructure for multiple social marketing platforms and advertising networks. He was the CMO of several famous tech startups in Vietnam. He played a vital role in the growth of 1Office, a tech startup in Vietnam, quintupling its business valuation in six months (from 3 million dollars to 15 million dollars). He has also co-founded several Facebook communities with hundreds of thousands of members who are interested in blockchain, cryptocurrencies, and trade."
+  }
+]

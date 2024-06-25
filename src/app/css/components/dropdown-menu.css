@@ -1,0 +1,7 @@
+.button-dropdown button {
+  color: #374151;
+}
+
+.button-dropdown button:hover {
+  color: #1a64f0; /* Màu nền khi hover */
+}
