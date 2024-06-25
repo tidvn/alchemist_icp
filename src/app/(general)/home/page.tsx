@@ -128,7 +128,7 @@ function LandingPage() {
             <div className="">
               <div className="text-center lg:text-left">
                 <h1 className="font-bold text-xxl lg:text-5xl !leading-1.5 lg:mb-1">
-                  <span className="text-neutral1">Alchemist</span>
+                  <span className="text-neutral1">SeerBot</span>
                   <br />
                   <span className="text-gradient-1">All For Traders</span>
                 </h1>
@@ -222,10 +222,10 @@ function LandingPage() {
             <p className="text-center mb-8" data-aos="zoom-in-up">
               <img
                 className="inline-block"
-                src="/img/logo-circle.svg"
+                src="/logo.svg"
                 alt=""
-                width="60"
-                height="60"
+                width="120"
+                height="80"
                 loading="lazy"
               />
             </p>
@@ -328,7 +328,7 @@ function LandingPage() {
             <div className="col-span-12 lg:col-span-5 mt-16 lg:mt-0">
               <header>
                 <h2 className="section__title lg:text-[3.5rem] leading-1.5 mb-2">
-                  <span className="text-secondary">Alchemist</span> Trade
+                  <span className="text-secondary">SeerBot</span> Trade
                 </h2>
 
                 <p className="text-neutral4">

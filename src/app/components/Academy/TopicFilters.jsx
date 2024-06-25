@@ -17,7 +17,7 @@ export default function TopicFilters() {
               <div className="container">
                 <header className="mb-6">
                   <h2 className="text-2xl lg:text-3xl font-bold leading-1.5">
-                    Topics on The Alchemist
+                    Topics on SeerBOT
                   </h2>
                 </header>
 

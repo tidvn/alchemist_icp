@@ -76,7 +76,7 @@ export default function Academy() {
             <div className="">
               <div className="text-center lg:text-left">
                 <h1 className="font-bold text-xxl lg:text-5xl !leading-1.5 lg:mb-1">
-                  <span className="text-neutral1">The Alchemist</span>
+                  <span className="text-neutral1">SeerBOT</span>
                   <br />
                   <span className="text-gradient-1">Academy</span>
                 </h1>

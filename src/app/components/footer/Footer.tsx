@@ -139,11 +139,11 @@ export const Footer = () => {
           <div className="col-span-12 lg:col-span-4 lg:pr-4">
             <a href="/" className="flex items-center">
               <Image
-                width={229}
+                width={230}
                 height={44}
-                src="/logo-header.svg"
+                src="/logo.svg"
                 className="mr-2 h-8"
-                alt="The Alchemist"
+                alt="SeerBOT"
               />
               {/* <span className="self-center text-2xl font-semibold whitespace-nowrap hidden sm:flex">
                 The Alchemist
@@ -151,8 +151,8 @@ export const Footer = () => {
             </a>
 
             <p className="text-sm lg:text-base tracking-tight mt-6 text-neutral4 leading-1.5 font-normal">
-              At The Alchemist, we believe in the power of data and knowledge to
-              bring clarity to our increasingly volatile market. By putting
+              At SeerBOT, we believe in the power of data and knowledge to bring
+              clarity to our increasingly volatile market. By putting
               cutting-edge technology and information resources in the hands of
               more people, we empower them to make better, more informed
               decisions, build a long-lasting platform, and help millions of
@@ -266,7 +266,7 @@ export const Footer = () => {
         </div>
 
         <p className="text-center lg:opacity-70 mt-12 text-sm">
-          &copy; {new Date().getFullYear()} The Alchemist - All Rights Reserved
+          &copy; {new Date().getFullYear()} Seerbot - All Rights Reserved
         </p>
       </div>
     </footer>

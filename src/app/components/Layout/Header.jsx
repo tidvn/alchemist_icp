@@ -17,6 +17,7 @@ import navigationMenus from "@/app/data/navigations.json";
 // import { useWallet } from "use-wallet";
 import Link from "next/link";
 import classNames from "classnames";
+import Image from "next/image";
 
 const maskAccount = (address) => {
   return `${address.slice(0, 6)}...${address.slice(-4)}`;
@@ -194,19 +195,31 @@ const Header = () => {
       <nav className="bg-white/90 backdrop-blur py-2.5 fixed w-full z-[19999] top-0 left-0">
         <div className="container flex flex-wrap items-center justify-between mx-auto">
           <Link href="/" className="flex items-center">
-            <img src="/logo.svg" className="mr-2 h-8" alt="The Alchemist" />
+            {/* <img src="/logo.svg" className="mr-2 h-8" alt="SeerBOT" /> */}
+            <Image
+              src="/logo.svg"
+              width={200}
+              height={32}
+              alt="SeerBOT"
+              // className="w-36 h-6 sm:h-8 sm:w-52"
+              className={
+                isAItradeLocation
+                  ? "w-36 h-6 md:h-8 md:w-52 md:hidden xl:flex"
+                  : "w-36 h-6 sm:h-8 sm:w-52"
+              }
+            ></Image>
             {/* <span className="self-center text-xl lg:text-3xl font-semibold whitespace-nowrap text-primary">
               The Alchemist
             </span> */}
-            <span
+            {/* <span
               className={
                 isAItradeLocation
                   ? "flex md:hidden xl:flex self-center text-xl lg:text-3xl font-semibold whitespace-nowrap text-primary"
                   : "self-center text-xl lg:text-3xl font-semibold whitespace-nowrap text-primary"
               }
             >
-              The Alchemist
-            </span>
+              SeerBOT
+            </span> */}
           </Link>
 
           <div className="flex items-center md:order-2 gap-4 lg:gap-8">

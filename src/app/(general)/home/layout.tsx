@@ -8,7 +8,7 @@ export default function HomeLayout({
 }) {
   return (
     <div>
-      <title>The Alchemist - Home</title>
+      <title>SeerBOT - Home</title>
       <section>
         <Header />
         <div>{children}</div>

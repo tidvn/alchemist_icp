@@ -10,7 +10,7 @@ export default function AITradeLayout({
 }) {
   return (
     <div>
-      <title>The Alchemist - AI Trade</title>
+      <title>SeerBOT - AI Trade</title>
       <Header />
       <section className="mt-20">
         <div>{children}</div>
