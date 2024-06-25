@@ -77,10 +77,10 @@ function LandingPage() {
   return (
     <>
       <section
-        className="section relative z-10 py-12 overflow-hidden"
+        className="section relative z-10 py-12 pb-24 lg:pb-12 overflow-hidden mt-12"
         id="section-main"
       >
-        <div className="absolute z-0 top-0 left-0">
+        <div className="absolute z-0 top-6 left-20">
           <Parallax speed={10}>
             <img
               src="/img/banners/main-homepage-bgleft.png"
@@ -93,7 +93,7 @@ function LandingPage() {
           </Parallax>
         </div>
 
-        <div className="absolute z-0 top-0 right-0">
+        <div className="absolute z-0 top-0 right-20">
           <Parallax speed={-10}>
             <img
               src="/img/banners/main-homepage-bgright.png"
@@ -108,7 +108,7 @@ function LandingPage() {
 
         <div className="relative z-0 mb-4 lg:mb-0">
           <div className="lg:flex lg:flex-row-reverse">
-            <div className="flex-shrink-0">
+            <div className="flex-shrink-0 xl:mr-14">
               <Atropos shadow={false} highlight={false} rotateTouch={false}>
                 <img
                   src="/img/main-banner-1.png"
@@ -116,7 +116,7 @@ function LandingPage() {
                   height="1040"
                   loading="lazy"
                   alt=""
-                  style={{ width: 713 }}
+                  style={{ width: 723 }}
                 />
               </Atropos>
             </div>
