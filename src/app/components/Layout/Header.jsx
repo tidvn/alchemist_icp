@@ -108,7 +108,7 @@ const Header = () => {
   const [user, setUser] = useState(null);
   const [wallet, setWallet] = useState(null);
   const isAcademyLocation = pathName.includes("/academy");
-  const isAItradeLocation = pathName.includes("/ai-trade");
+  const isAItradeLocation = pathName.includes("/al-trade");
   const drawer = useRef(null);
   const drawerEl = useRef(null);
   const [hiddenMobileMenu, setHiddenMobileMenu] = useState(true);
@@ -179,7 +179,7 @@ const Header = () => {
     ? navigationMenus.academy
     : navigationMenus.main;
 
-  links = isAItradeLocation ? navigationMenus.aiTrade : links;
+  links = isAItradeLocation ? navigationMenus.alTrade : links;
 
   return (
     <header>

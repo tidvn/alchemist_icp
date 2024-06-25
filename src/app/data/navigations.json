@@ -1,8 +1,8 @@
 {
   "main": [
     {
-      "title": "AI-trade",
-      "link": "/ai-trade/single-indicator/rsi-heatmap",
+      "title": "Al-trade",
+      "link": "/al-trade/single-indicator/rsi-heatmap",
       "hardLink": true
     },
     {
@@ -38,37 +38,37 @@
       "link": "/academy/glossaries"
     }
   ],
-  "aiTrade": [
+  "alTrade": [
     {
       "title": "Single Indicator",
-      "link": "/ai-trade",
+      "link": "/al-trade",
 
       "children": [
         {
           "title": "RSI Heatmap",
-          "link": "/ai-trade/single-indicator/rsi-heatmap",
+          "link": "/al-trade/single-indicator/rsi-heatmap",
           "hardLink": true
         },
         {
           "title": "Fibonacci",
-          "link": "/ai-trade/single-indicator/fibonacci",
+          "link": "/al-trade/single-indicator/fibonacci",
           "hardLink": true
         }
       ]
     },
     {
       "title": "Confluence Indicators",
-      "link": "/ai-trade/confluence-indicators",
+      "link": "/al-trade/confluence-indicators",
       "hardLink": true
     },
     {
       "title": "Chartpatterns",
-      "link": "/ai-trade/chartpatterns",
+      "link": "/al-trade/chartpatterns",
       "hardLink": true
     },
     {
       "title": "AI Predictions",
-      "link": "/ai-trade/ai-predictions",
+      "link": "/al-trade/ai-predictions",
       "hardLink": true
     }
   ]
