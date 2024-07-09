@@ -1,0 +1,117 @@
+[
+  {
+    "symbol": "ALL",
+    "name": "All Pairs"
+  },
+
+  {
+    "symbol": "ADA",
+    "name": "Cardano",
+    "imgUrl": "/img/coins/ADA.svg"
+  },
+  {
+    "symbol": "ATOM",
+    "name": "Cosmos",
+    "imgUrl": "/img/coins/ATOM.svg"
+  },
+  {
+    "symbol": "AVAX",
+    "name": "Avalance",
+    "imgUrl": "/img/coins/AVAX.svg"
+  },
+  {
+    "symbol": "BFT",
+    "name": "Big Five Token",
+    "imgUrl": "/img/coins/BFT.svg"
+  },
+  {
+    "symbol": "BNB",
+    "name": "Binance Coin",
+    "imgUrl": "/img/coins/BNB.svg"
+  },
+  {
+    "symbol": "BTC",
+    "name": "Bitcoin",
+    "imgUrl": "/img/coins/BTC.svg"
+  },
+  {
+    "symbol": "BUSD",
+    "name": "Binance USD",
+    "imgUrl": "/img/coins/BUSD.svg"
+  },
+  {
+    "symbol": "COTI",
+    "name": "Coti",
+    "imgUrl": "/img/coins/COTI.svg"
+  },
+  {
+    "symbol": "DOGE",
+    "name": "Dogecoin",
+    "imgUrl": "/img/coins/DOGE.svg"
+  },
+  {
+    "symbol": "DOT",
+    "name": "Polkadot",
+    "imgUrl": "/img/coins/DOT.svg"
+  },
+  {
+    "symbol": "ETH",
+    "name": "Ethereum",
+    "imgUrl": "/img/coins/ETH.svg"
+  },
+  {
+    "symbol": "LINA",
+    "name": "Linear Finance",
+    "imgUrl": "/img/coins/LINA.svg"
+  },
+  {
+    "symbol": "LINK",
+    "name": "Chainlink",
+    "imgUrl": "/img/coins/LINK.svg"
+  },
+  {
+    "symbol": "LTC",
+    "name": "Litecoin",
+    "imgUrl": "/img/coins/LTC.svg"
+  },
+  {
+    "symbol": "LUNA",
+    "name": "Terra",
+    "imgUrl": "/img/coins/LUNA.svg"
+  },
+  {
+    "symbol": "MATIC",
+    "name": "Polygon",
+    "imgUrl": "/img/coins/MATIC.svg"
+  },
+  {
+    "symbol": "SOL",
+    "name": "Solana",
+    "imgUrl": "/img/coins/SOL.svg"
+  },
+  {
+    "symbol": "TRX",
+    "name": "TRON",
+    "imgUrl": "/img/coins/TRX.svg"
+  },
+  {
+    "symbol": "UNI",
+    "name": "Uniswap",
+    "imgUrl": "/img/coins/UNI.svg"
+  },
+  {
+    "symbol": "USDT",
+    "name": "Tether",
+    "imgUrl": "/img/coins/USDT.svg"
+  },
+  {
+    "symbol": "XRP",
+    "name": "XPR",
+    "imgUrl": "/img/coins/XRP.svg"
+  },
+  {
+    "symbol": "PYR",
+    "name": "Vulcan Forged",
+    "imgUrl": "/img/coins/PYR.png"
+  }
+]
