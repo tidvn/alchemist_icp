@@ -3,79 +3,123 @@ import { Button } from "antd";
 import classNames from "classnames";
 import { TopOverSoldDataItem } from "./top-over-sold";
 import { TopOverBoughtDataItem } from "./top-over-bought";
-import { useMemo } from "react";
+import { useContext, useMemo } from "react";
 import { RsiType } from "@/app/type/type";
+import { SingleIndicatorContext } from "@/app/contexts/single-indicator";
 
 interface TradingStrategyProps {
   className?: string;
-  record?: TopOverSoldDataItem | TopOverBoughtDataItem;
-  signal?: "sold" | "bought";
-  heatMapType: RsiType;
 }
 
-export const TradingStrategy = ({
-  className,
-  record,
-  signal,
-  heatMapType,
-}: TradingStrategyProps) => {
+export const TradingStrategy = ({ className }: TradingStrategyProps) => {
   const tradingStrategyClassname = classNames(className);
+  const singleIndicatorFilter = useContext(SingleIndicatorContext);
 
   const entryPoint = useMemo(() => {
-    if (record?.close) {
-      return record.close;
+    if (singleIndicatorFilter.recordActive?.close) {
+      return singleIndicatorFilter.recordActive.close;
     }
     return 0;
-  }, [record?.close]);
+  }, [singleIndicatorFilter.recordActive?.close]);
 
   const dca1 = useMemo(() => {
-    if (record?.close && record?.low && record?.high && signal) {
+    if (
+      singleIndicatorFilter.recordActive?.close &&
+      singleIndicatorFilter.recordActive?.low &&
+      singleIndicatorFilter.recordActive?.high &&
+      singleIndicatorFilter.signal
+    ) {
       return (
-        (record.close + (signal === "sold" ? record.low : record.high)) / 2
+        (singleIndicatorFilter.recordActive.close +
+          (singleIndicatorFilter.signal === "sold"
+            ? singleIndicatorFilter.recordActive.low
+            : singleIndicatorFilter.recordActive.high)) /
+        2
       );
     }
     return 0;
-  }, [record?.close, record?.low, record?.high, signal]);
+  }, [
+    singleIndicatorFilter.recordActive?.close,
+    singleIndicatorFilter.recordActive?.low,
+    singleIndicatorFilter.recordActive?.high,
+    singleIndicatorFilter.signal,
+  ]);
 
   const dca2 = useMemo(() => {
-    if (record?.low && record?.high && signal) {
-      return signal === "sold" ? record.low : record.high;
+    if (
+      singleIndicatorFilter.recordActive?.low &&
+      singleIndicatorFilter.recordActive?.high &&
+      singleIndicatorFilter.signal
+    ) {
+      return singleIndicatorFilter.signal === "sold"
+        ? singleIndicatorFilter.recordActive.low
+        : singleIndicatorFilter.recordActive.high;
     }
     return 0;
-  }, [record?.low, record?.high, signal]);
+  }, [
+    singleIndicatorFilter.recordActive?.low,
+    singleIndicatorFilter.recordActive?.high,
+    singleIndicatorFilter.signal,
+  ]);
 
   const targetPoint = useMemo(() => {
     return entryPoint * 1.05;
   }, [entryPoint]);
 
   const stopLoss = useMemo(() => {
-    if (record?.low && record?.high && signal) {
-      return signal === "sold" ? record.low * 1.05 : record.high * 1.05;
+    if (
+      singleIndicatorFilter.recordActive?.low &&
+      singleIndicatorFilter.recordActive?.high &&
+      singleIndicatorFilter.signal
+    ) {
+      return singleIndicatorFilter.signal === "sold"
+        ? singleIndicatorFilter.recordActive.low * 1.05
+        : singleIndicatorFilter.recordActive.high * 1.05;
     }
     return 0;
-  }, [record?.low, record?.high, signal]);
+  }, [
+    singleIndicatorFilter.recordActive?.low,
+    singleIndicatorFilter.recordActive?.high,
+    singleIndicatorFilter.signal,
+  ]);
 
   const reword = useMemo(() => {
-    if (record?.close) {
-      return (record.close * 0.05).toFixed(6);
+    if (singleIndicatorFilter.recordActive?.close) {
+      return (singleIndicatorFilter.recordActive.close * 0.05).toFixed(6);
     }
     return 0;
-  }, [record?.close]);
+  }, [singleIndicatorFilter.recordActive?.close]);
 
   const risk = useMemo(() => {
-    if (record?.close && record?.low && record?.high && signal) {
-      if (signal === "sold") {
-        return (record.low * 0.95 - record.close).toFixed(6);
+    if (
+      singleIndicatorFilter.recordActive?.close &&
+      singleIndicatorFilter.recordActive?.low &&
+      singleIndicatorFilter.recordActive?.high &&
+      singleIndicatorFilter.signal
+    ) {
+      if (singleIndicatorFilter.signal === "sold") {
+        return (
+          singleIndicatorFilter.recordActive.low * 0.95 -
+          singleIndicatorFilter.recordActive.close
+        ).toFixed(6);
       } else {
-        return (record.close - record.high * 1.05).toFixed(6);
+        return (
+          singleIndicatorFilter.recordActive.close -
+          singleIndicatorFilter.recordActive.high * 1.05
+        ).toFixed(6);
       }
     }
     return 0;
-  }, [record?.close, record?.low, record?.high, signal]);
+  }, [
+    singleIndicatorFilter.recordActive?.close,
+    singleIndicatorFilter.recordActive?.low,
+    singleIndicatorFilter.recordActive?.high,
+    singleIndicatorFilter.signal,
+  ]);
 
   const signalClassName = classNames("text-xs leading-5 font-normal ml-1", {
-    "text-[#1A64F0]": signal === "sold",
-    "text-[#CC0001]": signal === "bought",
+    "text-[#1A64F0]": singleIndicatorFilter.signal === "sold",
+    "text-[#CC0001]": singleIndicatorFilter.signal === "bought",
   });
 
   return (
@@ -85,13 +129,16 @@ export const TradingStrategy = ({
         <div className="text-sm font-semibold leading-5">
           Signal:
           <span className={signalClassName}>
-            {signal === "bought" ? "Over Bought" : "Over Sold"}
+            {singleIndicatorFilter.signal === "bought"
+              ? "Over Bought"
+              : "Over Sold"}
           </span>
         </div>
         <div className="text-sm font-semibold leading-5 flex justify-end md:justify-start">
           Indicator:
           <span className="text-[#1A64F0] text-xs leading-5 font-normal ml-1">
-            {heatMapType} ~ <span>{record?.rsi}</span>
+            {singleIndicatorFilter.type} ~{" "}
+            <span>{singleIndicatorFilter.recordActive?.rsi}</span>
           </span>
         </div>
       </div>

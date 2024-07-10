@@ -3,7 +3,10 @@
 import { Table } from "antd";
 import classNames from "classnames";
 import "@/app/css/rsi-heatmap/top-over-bought.css";
-import { useEffect, useState } from "react";
+import { useCallback, useContext, useEffect, useState } from "react";
+import api from "@/app/axios";
+import { RsiType, TimeType } from "@/app/type/type";
+import { SingleIndicatorContext } from "@/app/contexts/single-indicator";
 const { Column } = Table;
 
 export type TopOverSoldData = {
@@ -27,57 +30,77 @@ export type TopOverSoldDataItem = {
 
 type TopOverSoldProps = {
   className?: string;
-  recordActiveIndex?: number;
-  setRecordActive?: (record: TopOverSoldDataItem) => void;
-  setRecordActiveIndex?: (index: number) => void;
-  signal?: "sold" | "bought";
-  setSignal?: (signal: "sold" | "bought") => void;
-  data: TopOverSoldData[];
 };
 
-export const TopOverSold = ({
-  className,
-  data,
-  recordActiveIndex,
-  setRecordActiveIndex,
-  signal,
-  setSignal,
-  setRecordActive,
-}: TopOverSoldProps) => {
+export const TopOverSold = ({ className }: TopOverSoldProps) => {
   const [loading, setLoading] = useState(false);
   const [topOverSoldData, setTopOverSoldData] = useState<TopOverSoldDataItem[]>(
     []
   );
-  const [selectedRowKey, setSelectedRowKey] = useState(0);
+  const singleIndicatorFilter = useContext(SingleIndicatorContext);
+
+  const fetchData = useCallback(
+    async (heatMapType: RsiType, time: TimeType) => {
+      try {
+        setLoading(true);
+        const { data: topOverSold } = await api.get("/heatmap/top-over-sold", {
+          params: { heatMapType, timeType: time },
+        });
+        setTopOverSoldData(topOverSold);
+
+        singleIndicatorFilter.setRecordActive({
+          key: 0,
+          name: topOverSold[0]?.symbol,
+          rsi: topOverSold[0]?.rsi,
+          close: topOverSold[0]?.close,
+          high: topOverSold[0]?.high,
+          low: topOverSold[0]?.low,
+          discoveredOn: topOverSold[0]?.dateCreated,
+        });
+        singleIndicatorFilter.setSignal("sold");
+        singleIndicatorFilter.setRecordActiveIndex(0);
+        const newData = topOverSold?.map((item: any, index: number) => {
+          return {
+            key: index,
+            name: item.symbol,
+            rsi: item.rsi,
+            close: item.close,
+            high: item.high,
+            low: item.low,
+            discoveredOn: item.dateCreated,
+          };
+        });
+        setTopOverSoldData(newData);
+      } catch (error) {
+        console.error("Error fetching data:", error);
+      } finally {
+        setLoading(false);
+      }
+    },
+    [
+      singleIndicatorFilter.setRecordActive,
+      singleIndicatorFilter.setSignal,
+      singleIndicatorFilter.setRecordActiveIndex,
+    ]
+  );
 
   useEffect(() => {
-    setLoading(true);
-    const newData = data?.map((item, index) => {
-      return {
-        key: index,
-        name: item.symbol,
-        rsi: item.rsi,
-        close: item.close,
-        high: item.high,
-        low: item.low,
-        discoveredOn: item.dateCreated,
-      };
-    });
-    setTopOverSoldData(newData);
-    setLoading(false);
-  }, [data]);
+    fetchData(singleIndicatorFilter.type, singleIndicatorFilter.time);
+  }, [fetchData, singleIndicatorFilter.type, singleIndicatorFilter.time]);
 
   const onRowClick = (record: TopOverSoldDataItem) => {
     if (record) {
-      setSignal && setSignal("sold");
-      setRecordActiveIndex && setRecordActiveIndex(record.key);
-      setRecordActive && setRecordActive(record);
+      singleIndicatorFilter.setSignal("sold");
+      singleIndicatorFilter.setRecordActiveIndex(record.key);
+      singleIndicatorFilter.setRecordActive(record);
     }
   };
 
   const rowClassName = (record: TopOverSoldDataItem) => {
-    const selectedRowKey = recordActiveIndex ?? "";
-    return record.key === selectedRowKey && signal === "sold"
+    const selectedRowKey = singleIndicatorFilter.recordActiveIndex ?? "";
+    console.log(record);
+    return record.key === selectedRowKey &&
+      singleIndicatorFilter.signal === "sold"
       ? "row-active"
       : "";
   };

@@ -7,25 +7,25 @@ import Link from "next/link";
 
 interface RsiFilterProps {
   className?: string;
-  heatMapType: RsiType;
-  setHeatMapType: (type: RsiType) => void;
+  type: RsiType;
+  setType: (type: RsiType) => void;
   time: TimeType;
   setTime: (time: TimeType) => void;
-  pair: string;
+  pair?: string;
 }
 
 export const RsiFilter = ({
   className,
-  heatMapType,
-  setHeatMapType,
+  type,
+  setType,
   time,
   setTime,
   pair,
 }: RsiFilterProps) => {
   const filterClassName = classNames(className);
-  const getActiveClassName = (type: RsiType) =>
+  const getActiveClassName = (typeMap: RsiType) =>
     classNames("snap-center cursor-pointer", {
-      "text-[#1A64F0]": type === heatMapType,
+      "text-[#1A64F0]": typeMap === type,
     });
 
   const getActiveTimeClassName = (t: TimeType) =>
@@ -38,25 +38,31 @@ export const RsiFilter = ({
       <div className="flex items-center text-xs text-nowrap overflow-scroll sm:text-sm sm:font-semibold text-[#7D7D7D] gap-x-4 md:gap-x-12 custom-scrollbar">
         <div
           className={getActiveClassName("RSI7")}
-          onClick={() => setHeatMapType("RSI7")}
+          onClick={() => setType("RSI7")}
         >
           RSI7 Heatmap
         </div>
         <div
           className={getActiveClassName("RSI14")}
-          onClick={() => setHeatMapType("RSI14")}
+          onClick={() => setType("RSI14")}
         >
           RSI14 Heatmap
         </div>
         <div
           className={getActiveClassName("ADX14")}
-          onClick={() => setHeatMapType("ADX14")}
+          onClick={() => setType("ADX14")}
         >
           ADX14 Heatmap
         </div>
         <div
+          className={getActiveClassName("FIBONACCI")}
+          onClick={() => setType("FIBONACCI")}
+        >
+          Fibonacci
+        </div>
+        <div
           className={getActiveClassName("OTHER")}
-          onClick={() => setHeatMapType("OTHER")}
+          onClick={() => setType("OTHER")}
         >
           Other
         </div>

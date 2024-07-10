@@ -26,3 +26,7 @@
     background-color: rgba(0, 0, 0, 0.5);
   }
 }
+
+.row-active {
+  background-color: rgba(149, 145, 145, 0.1);
+}

@@ -3,7 +3,10 @@
 import { Table } from "antd";
 import classNames from "classnames";
 import "@/app/css/rsi-heatmap/top-over-sold.css";
-import { useEffect, useState } from "react";
+import { useCallback, useContext, useEffect, useState } from "react";
+import { RsiType, TimeType } from "@/app/type/type";
+import { SingleIndicatorContext } from "@/app/contexts/single-indicator";
+import api from "@/app/axios";
 const { Column } = Table;
 
 export type TopOverBoughtData = {
@@ -26,58 +29,68 @@ export type TopOverBoughtDataItem = {
 };
 type TopOverBoughtProps = {
   className?: string;
-  recordActiveIndex?: number;
-  setRecordActive?: (record: TopOverBoughtDataItem) => void;
-  setRecordActiveIndex?: (index: number) => void;
-  signal?: "sold" | "bought";
-  setSignal?: (signal: "sold" | "bought") => void;
-  data: TopOverBoughtData[];
 };
 
-export const TopOverBought = ({
-  className,
-  data,
-  recordActiveIndex,
-  setRecordActiveIndex,
-  signal,
-  setSignal,
-  setRecordActive,
-}: TopOverBoughtProps) => {
+export const TopOverBought = ({ className }: TopOverBoughtProps) => {
   const [loading, setLoading] = useState(false);
   const [topOverBoughtData, setTopOverBoughtData] = useState<
     TopOverBoughtDataItem[]
   >([]);
+  const singleIndicatorFilter = useContext(SingleIndicatorContext);
 
+  const fetchData = useCallback(
+    async (heatMapType: RsiType, time: TimeType) => {
+      try {
+        setLoading(true);
+        const { data: topOverBought } = await api.get(
+          "/heatmap/top-over-bought",
+          {
+            params: { heatMapType, timeType: time },
+          }
+        );
+        setTopOverBoughtData(topOverBought);
+
+        const newData = topOverBought?.map((item: any, index: number) => {
+          return {
+            key: index,
+            name: item.symbol,
+            rsi: item.rsi,
+            close: item.close,
+            high: item.high,
+            low: item.low,
+            discoveredOn: item.dateCreated,
+          };
+        });
+        setTopOverBoughtData(newData);
+      } catch (error) {
+        console.error("Error fetching data:", error);
+      } finally {
+        setLoading(false);
+      }
+    },
+    [
+      singleIndicatorFilter.setSignal,
+      singleIndicatorFilter.setRecordActiveIndex,
+    ]
+  );
   useEffect(() => {
-    setLoading(true);
-    const newData = data?.map((item, index) => {
-      return {
-        key: index,
-        name: item.symbol,
-        rsi: item.rsi,
-        close: item.close,
-        high: item.high,
-        low: item.low,
-        discoveredOn: item.dateCreated,
-      };
-    });
-    setTopOverBoughtData(newData);
-    setLoading(false);
-  }, [data]);
+    fetchData(singleIndicatorFilter.type, singleIndicatorFilter.time);
+  }, [fetchData, singleIndicatorFilter.type, singleIndicatorFilter.time]);
 
   const topOverSoldClassName = classNames("h-[604px]", className);
 
   const onRowClick = (record: TopOverBoughtDataItem) => {
     if (record) {
-      setSignal && setSignal("bought");
-      setRecordActiveIndex && setRecordActiveIndex(record.key);
-      setRecordActive && setRecordActive(record);
+      singleIndicatorFilter.setSignal("bought");
+      singleIndicatorFilter.setRecordActiveIndex(record.key);
+      singleIndicatorFilter.setRecordActive(record);
     }
   };
 
   const rowClassName = (record: TopOverBoughtDataItem) => {
-    const selectedRowKey = recordActiveIndex ?? "";
-    return record.key === selectedRowKey && signal === "bought"
+    const selectedRowKey = singleIndicatorFilter.recordActiveIndex ?? "";
+    return record.key === selectedRowKey &&
+      singleIndicatorFilter.signal === "bought"
       ? "row-active"
       : "";
   };

@@ -166,7 +166,6 @@ const Header = () => {
   ];
 
   useEffect(() => {
-    console.log(useRouter.pathname);
     if (window.Drawer) {
       drawer.current = new window.Drawer(drawerEl.current, {
         placement: "bottom",
@@ -246,7 +245,7 @@ const Header = () => {
 
             <button
               onClick={toggleDrawer}
-              data-collapse-toggle="navbar-sticky"
+              // data-collapse-toggle="navbar-sticky"
               type="button"
               className="flex-shrink-0 inline-flex items-center p-2 text-sm text-gray-500 rounded-full md:hidden hover:bg-gray-100 focus:outline-none focus:ring-2 focus:ring-gray-200"
               aria-controls="navbar-sticky"

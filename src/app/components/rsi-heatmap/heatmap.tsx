@@ -1,21 +1,27 @@
 "use client";
-import React, { useMemo } from "react";
+import React, {
+  useCallback,
+  useContext,
+  useEffect,
+  useMemo,
+  useState,
+} from "react";
 import ReactECharts from "echarts-for-react";
 import classNames from "classnames";
+import { RsiType, TimeType } from "@/app/type/type";
+import { SingleIndicatorContext } from "@/app/contexts/single-indicator";
+import api from "@/app/axios";
+import { Spin } from "antd";
 
 interface EChartComponentProps {
   className?: string;
-  nameCoins: string[]; // Array of coin names
-  data: [number, number][]; // Array of data points (coinRank, rsiValue)
-  rateCompared: number[]; // Array of rate changes compared to the previous period
 }
 
-export const HeatMapChart = ({
-  className,
-  nameCoins,
-  data,
-  rateCompared,
-}: EChartComponentProps) => {
+export const HeatMapChart = ({ className }: EChartComponentProps) => {
+  const [isLoading, setIsLoading] = useState(true);
+  const [heatMapData, setHeatMapData] = useState([]);
+  const [rateCompared, setRateCompared] = useState([]);
+  const [nameCoins, setNameCoins] = useState([]);
   const thresholdValues = [0, 30, 40, 60, 70, 100];
   const zoneColors = ["#65a87a", "#829F8B", "#939393", "#D86D66", "#CD534A"];
   const getColor = (value: any) => {
@@ -33,13 +39,35 @@ export const HeatMapChart = ({
   };
 
   const averageRSI = useMemo(() => {
-    if (data.length === 0) {
+    if (heatMapData.length === 0) {
       return 0; // Hoặc giá trị mặc định khác nếu data rỗng
     }
 
-    const totalRSI = data.reduce((sum, item) => sum + item[1], 0); // Tính tổng RSI
-    return totalRSI / data.length; // Tính trung bình
-  }, [data]); // Chỉ tính toán lại khi data thay đổi
+    const totalRSI = heatMapData.reduce((sum, item) => sum + item[1], 0); // Tính tổng RSI
+    return totalRSI / heatMapData.length; // Tính trung bình
+  }, [heatMapData]); // Chỉ tính toán lại khi data thay đổi
+
+  const fetchData = useCallback(
+    async (heatMapType: RsiType, time: TimeType) => {
+      try {
+        setIsLoading(true);
+        const { data: chartData } = await api.get("/heatmap/chart-data?", {
+          params: { heatMapType, timeType: time },
+        });
+
+        setNameCoins(chartData.map((item: any) => item.symbol));
+        setHeatMapData(
+          chartData.map((item: any, index: number) => [index, item.rsi])
+        );
+        setRateCompared(chartData.map((item: any) => item.percentageChange));
+      } catch (error) {
+        console.error("Error fetching data:", error);
+      } finally {
+        setIsLoading(false);
+      }
+    },
+    []
+  );
 
   const option = {
     dataZoom: [
@@ -100,7 +128,7 @@ export const HeatMapChart = ({
     series: [
       {
         symbolSize: 20,
-        data: data?.map((item, index) => ({
+        data: heatMapData?.map((item, index) => ({
           value: item,
           name: nameCoins[index],
           label: {
@@ -158,7 +186,7 @@ export const HeatMapChart = ({
             borderWidth: 2,
             borderType: "dotted",
           },
-          data: data?.map(function (item, index) {
+          data: heatMapData?.map(function (item, index) {
             return {
               coord: [item[0], item[1]],
               itemStyle: {
@@ -277,11 +305,25 @@ export const HeatMapChart = ({
     ],
   };
 
+  const singleIndicatorFilter = useContext(SingleIndicatorContext);
+
+  useEffect(() => {
+    fetchData(singleIndicatorFilter.type, singleIndicatorFilter.time);
+  }, [fetchData, singleIndicatorFilter.type, singleIndicatorFilter.time]);
+
   return (
-    <ReactECharts
-      option={option}
-      style={{ height: "604px", width: "100%" }}
-      className={classNames(className)}
-    />
+    <div className="w-full">
+      {isLoading ? (
+        <div className="flex justify-center">
+          <Spin size="large" />
+        </div>
+      ) : (
+        <ReactECharts
+          option={option}
+          style={{ height: "604px", width: "100%" }}
+          className={classNames(className)}
+        />
+      )}
+    </div>
   );
 };
