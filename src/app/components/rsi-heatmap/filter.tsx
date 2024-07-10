@@ -4,6 +4,7 @@ import { Button } from "antd";
 import classNames from "classnames";
 import Image from "next/image";
 import Link from "next/link";
+import { useRouter } from "next/navigation";
 
 interface RsiFilterProps {
   className?: string;
@@ -33,39 +34,55 @@ export const RsiFilter = ({
       "!text-[#1A64F0] !border-2 !border-[#1A64F0] !shadow-5": t === time,
     });
 
+  const router = useRouter();
+
   return (
     <div className={filterClassName}>
       <div className="flex items-center text-xs text-nowrap overflow-scroll sm:text-sm sm:font-semibold text-[#7D7D7D] gap-x-4 md:gap-x-12 custom-scrollbar">
         <div
           className={getActiveClassName("RSI7")}
-          onClick={() => setType("RSI7")}
+          onClick={() => {
+            setType("RSI7");
+            router.push("/al-trade/single-indicator/rsi-heatmap?type=RSI7");
+          }}
         >
           RSI7 Heatmap
         </div>
         <div
           className={getActiveClassName("RSI14")}
-          onClick={() => setType("RSI14")}
+          onClick={() => {
+            setType("RSI14");
+            router.push("/al-trade/single-indicator/rsi-heatmap?type=RSI14");
+          }}
         >
           RSI14 Heatmap
         </div>
         <div
           className={getActiveClassName("ADX14")}
-          onClick={() => setType("ADX14")}
+          onClick={() => {
+            setType("ADX14");
+            router.push("/al-trade/single-indicator/rsi-heatmap?type=ADX14");
+          }}
         >
           ADX14 Heatmap
         </div>
         <div
           className={getActiveClassName("FIBONACCI")}
-          onClick={() => setType("FIBONACCI")}
+          onClick={() => {
+            setType("FIBONACCI");
+            router.push(
+              "/al-trade/single-indicator/rsi-heatmap?type=FIBONACCI"
+            );
+          }}
         >
           Fibonacci
         </div>
-        <div
+        {/* <div
           className={getActiveClassName("OTHER")}
           onClick={() => setType("OTHER")}
         >
           Other
-        </div>
+        </div> */}
       </div>
       <div className="lg:flex items-center justify-between mt-3">
         <div className="lg:flex lg:gap-x-3">

@@ -2,7 +2,7 @@
   "main": [
     {
       "title": "Al-trade",
-      "link": "/al-trade/single-indicator/rsi-heatmap",
+      "link": "/al-trade/single-indicator/rsi-heatmap?type=RSI7",
       "hardLink": true
     },
     {
@@ -46,12 +46,12 @@
       "children": [
         {
           "title": "RSI Heatmap",
-          "link": "/al-trade/single-indicator/rsi-heatmap",
+          "link": "/al-trade/single-indicator/rsi-heatmap?type=RSI7",
           "hardLink": true
         },
         {
           "title": "Fibonacci",
-          "link": "/al-trade/single-indicator/fibonacci",
+          "link": "/al-trade/single-indicator/rsi-heatmap?type=FIBONACCI",
           "hardLink": true
         }
       ]

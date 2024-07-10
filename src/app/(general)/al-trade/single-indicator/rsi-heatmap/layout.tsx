@@ -13,7 +13,7 @@ export default function RsiHeatMapLayout({
 }: {
   children: React.ReactNode;
 }) {
-  const [type, setType] = useState<RsiType>("RSI14");
+  const [type, setType] = useState<RsiType>("RSI7");
   const [time, setTime] = useState<TimeType>("ONE_DAY");
   const [signal, setSignal] = useState<"sold" | "bought">("sold");
   const [recordActive, setRecordActive] = useState<
@@ -50,6 +50,7 @@ export default function RsiHeatMapLayout({
               setRecordActive,
               setSignal,
               setRecordActiveIndex,
+              setType,
             }}
           >
             {children}

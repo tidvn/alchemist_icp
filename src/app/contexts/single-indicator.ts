@@ -12,6 +12,7 @@ type singleIndicatorFilterType = {
   setRecordActive: (record: TopOverSoldDataItem) => void;
   setSignal: (signal: "sold" | "bought") => void;
   setRecordActiveIndex: (index: number) => void;
+  setType: (type: RsiType) => void;
 };
 
 export const SingleIndicatorContext = createContext({
@@ -20,4 +21,5 @@ export const SingleIndicatorContext = createContext({
   recordActive: {},
   setRecordActive: (record: TopOverSoldDataItem) => {},
   setSignal: (signal: "bought" | "sold") => {},
+  setType: (type: RsiType) => {},
 } as singleIndicatorFilterType);
