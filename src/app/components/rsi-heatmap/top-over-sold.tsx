@@ -98,7 +98,6 @@ export const TopOverSold = ({ className }: TopOverSoldProps) => {
 
   const rowClassName = (record: TopOverSoldDataItem) => {
     const selectedRowKey = singleIndicatorFilter.recordActiveIndex ?? "";
-    console.log(record);
     return record.key === selectedRowKey &&
       singleIndicatorFilter.signal === "sold"
       ? "row-active"
@@ -130,6 +129,7 @@ export const TopOverSold = ({ className }: TopOverSoldProps) => {
             dataIndex="name"
             key="name"
             align="left"
+            className="truncate"
             render={(name: string) => (
               <>
                 <div key={name} className="leading-5 text-sm text-[#00BD46]">
@@ -143,6 +143,7 @@ export const TopOverSold = ({ className }: TopOverSoldProps) => {
             dataIndex="discoveredOn"
             key="discoveredOn"
             align="right"
+            className="truncate"
           />
         </Table>
       </div>

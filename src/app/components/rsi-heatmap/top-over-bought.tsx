@@ -118,6 +118,7 @@ export const TopOverBought = ({ className }: TopOverBoughtProps) => {
             dataIndex="name"
             key="name"
             align="left"
+            className="truncate"
             render={(name: string) => (
               <>
                 <div key={name} className="leading-5 text-sm text-[#CC0001]">
@@ -131,6 +132,7 @@ export const TopOverBought = ({ className }: TopOverBoughtProps) => {
             dataIndex="discoveredOn"
             key="discoveredOn"
             align="right"
+            className="truncate"
           />
         </Table>
       </div>

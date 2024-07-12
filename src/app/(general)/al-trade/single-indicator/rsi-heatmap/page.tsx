@@ -1,4 +1,5 @@
 "use client";
+import { Fibonacci } from "@/app/components/fibonacci/fibonacci";
 import { HeatMapChart } from "@/app/components/rsi-heatmap/heatmap";
 import { ManagePortfolio } from "@/app/components/rsi-heatmap/manage-portfolio";
 import { OderInfomation } from "@/app/components/rsi-heatmap/order-info";
@@ -12,7 +13,6 @@ import { ArrowsOutSimple } from "@phosphor-icons/react/dist/ssr";
 import { useSearchParams } from "next/navigation";
 import { useContext, useEffect } from "react";
 import { FullScreen, useFullScreenHandle } from "react-full-screen";
-import { useRouter } from "next/navigation";
 
 export default function HeatMap({}) {
   const handle = useFullScreenHandle();
@@ -25,15 +25,13 @@ export default function HeatMap({}) {
       singleIndicatorFilter.setType(type as RsiType);
     }
   }, [singleIndicatorFilter.type, type]);
-  return (
+  return singleIndicatorFilter.type === "FIBONACCI" ? (
+    <Fibonacci />
+  ) : (
     <div className="max-w-8xl">
       <div className="grid grid-cols-3 lg:grid-cols-4 gap-x-4 gap-y-5 mt-6">
         <div className="col-span-3 lg:col-span-1 order-2 lg:order-1 border border-[#E7E7E7] rounded-xl">
-          {singleIndicatorFilter.type === "FIBONACCI" ? (
-            <div></div>
-          ) : (
-            <TopOverSold />
-          )}
+          <TopOverSold />
         </div>
         <div className="col-span-3 lg:col-span-2 order-1 lg:order-2 border border-[#E7E7E7] rounded-xl relative">
           <ArrowsOutSimple
@@ -54,26 +52,24 @@ export default function HeatMap({}) {
           <TopOverBought />
         </div>
       </div>
-      {singleIndicatorFilter.type !== "FIBONACCI" && (
-        <div className="grid grid-cols-3 lg:grid-cols-4 gap-x-4 gap-y-5 mt-6">
-          <div className="col-span-3 lg:col-span-1 border border-[#E7E7E7] rounded-xl">
-            <OderInfomation />
-          </div>
-          <div className="col-span-3 lg:col-span-2 border border-[#E7E7E7] rounded-xl">
-            <TradingStrategy />
-          </div>
-          <div className="col-span-3 lg:col-span-1">
-            <div className="flex flex-col justify-between gap-4 h-full">
-              <div className="border border-[#E7E7E7] rounded-xl">
-                <TradeWithCandleStick />
-              </div>
-              <div className="grow border border-[#E7E7E7] rounded-xl">
-                <ManagePortfolio />
-              </div>
+      <div className="grid grid-cols-3 lg:grid-cols-4 gap-x-4 gap-y-5 mt-6">
+        <div className="col-span-3 lg:col-span-1 border border-[#E7E7E7] rounded-xl">
+          <OderInfomation />
+        </div>
+        <div className="col-span-3 lg:col-span-2 border border-[#E7E7E7] rounded-xl">
+          <TradingStrategy />
+        </div>
+        <div className="col-span-3 lg:col-span-1">
+          <div className="flex flex-col justify-between gap-4 h-full">
+            <div className="border border-[#E7E7E7] rounded-xl">
+              <TradeWithCandleStick />
+            </div>
+            <div className="grow border border-[#E7E7E7] rounded-xl">
+              <ManagePortfolio />
             </div>
           </div>
         </div>
-      )}
+      </div>
     </div>
   );
 }

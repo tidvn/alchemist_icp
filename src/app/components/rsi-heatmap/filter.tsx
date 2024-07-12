@@ -182,12 +182,20 @@ export const RsiFilter = ({
         </div>
 
         <div className="hidden xl:flex xl:flex-col items-center px-32">
-          <div className="text-sm font-medium leading-5 text-[#7D7D7D]">
-            Tradding Pair:
-          </div>
-          <div className="text-xl font-semibold leading-8 mt-2">
-            {pair?.replace(/(.*)(USDT)$/, "$1/$2")}
-          </div>
+          {type === "FIBONACCI" ? (
+            <div className="text-xl font-semibold leading-8">Suggestion</div>
+          ) : (
+            <div className="text-sm font-medium leading-5 text-[#7D7D7D]">
+              Tradding Pair:
+            </div>
+          )}
+          {type === "FIBONACCI" ? (
+            <div className="text-xl font-semibold leading-8"></div>
+          ) : (
+            <div className="text-xl font-semibold leading-8 mt-2">
+              {pair?.replace(/(.*)(USDT)$/, "$1/$2")}
+            </div>
+          )}
         </div>
       </div>
     </div>

@@ -1,6 +1,9 @@
 .header-color {
   .ant-table-thead .ant-table-cell {
     background-color: transparent;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    white-space: nowrap;
   }
 }
 
