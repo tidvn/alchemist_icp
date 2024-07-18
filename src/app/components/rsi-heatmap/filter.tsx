@@ -145,7 +145,7 @@ export const RsiFilter = ({
               </div>
             </Button>
           </div>
-          <div className="flex items-center mt-4 lg:mt-0 gap-x-3 overflow-scroll custom-scrollbar">
+          <div className="flex items-center mt-4 lg:mt-0 gap-x-3">
             <div>
               <Button
                 className={getActiveTimeClassName("ONE_DAY")}
@@ -170,14 +170,14 @@ export const RsiFilter = ({
                 <div className="flex items-center">1H</div>
               </Button>
             </div>
-            <div>
+            {/* <div>
               <Button
                 className={getActiveTimeClassName("THIRTY_MINUTES")}
                 onClick={() => setTime("THIRTY_MINUTES")}
               >
                 <div className="flex items-center">30m</div>
               </Button>
-            </div>
+            </div> */}
           </div>
         </div>
 

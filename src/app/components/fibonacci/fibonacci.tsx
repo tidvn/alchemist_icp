@@ -33,8 +33,11 @@ export const Fibonacci = () => {
 
   const similarPairsSelection = {
     selectedRowKeys: selectedSimilarPairKeys,
+    hideSelectAll: true,
     onChange: (selectedRowKeys: any) => {
-      setSelectedSimilarPairKeys(selectedRowKeys);
+      if (selectedRowKeys.length <= 5) {
+        setSelectedSimilarPairKeys(selectedRowKeys);
+      }
     },
   };
 
@@ -59,6 +62,33 @@ export const Fibonacci = () => {
     }
   }, []);
 
+  // const fetchSimilarPairList = useCallback(
+  //   async (originalPair: string, time: TimeType) => {
+  //     try {
+  //       setSimilarPairListLoading(true);
+  //       const { data } = await api.get("/fibonacci/fibonacci-info", {
+  //         params: { originalPair, timeType: time },
+  //       });
+  //       if (data.length > 0) {
+  //         const newData = data.map((item: any, index: number) => ({
+  //           key: index,
+  //           ...item,
+  //         }));
+  //         setSimilarPairList(newData);
+  //         const firstFiveKeys = newData
+  //           .slice(0, 5)
+  //           .map((item: any) => item.key);
+  //         setSelectedSimilarPairKeys(firstFiveKeys);
+  //       }
+  //     } catch (error) {
+  //       console.error("Error fetching data:", error);
+  //     } finally {
+  //       setSimilarPairListLoading(false);
+  //     }
+  //   },
+  //   []
+  // );
+
   const fetchSimilarPairList = useCallback(
     async (originalPair: string, time: TimeType) => {
       try {
@@ -66,11 +96,24 @@ export const Fibonacci = () => {
         const { data } = await api.get("/fibonacci/fibonacci-info", {
           params: { originalPair, timeType: time },
         });
-        if (data.length > 0) {
-          const newData = data.map((item: any, index: number) => ({
-            key: index,
-            ...item,
-          }));
+
+        if (data.similarSymbols.length > 0) {
+          const newData = data.similarSymbols.map(
+            (symbol: any, index: number) => ({
+              key: index,
+              originalSymbol: data.originalSymbol,
+              originalStartDate: data.originalStartDate,
+              originalEndDate: data.originalEndDate,
+              originalPrices: data.originalPrices,
+              originalFibonacci: data.originalFibonacci,
+              similarSymbol: symbol,
+              similarStartDate: data.similarStartDates[index],
+              similarEndDate: data.similarEndDates[index],
+              similarPrices: data.similarPrices[index],
+              similarFibonacci: data.similarFibonacci[index],
+            })
+          );
+
           setSimilarPairList(newData);
           const firstFiveKeys = newData
             .slice(0, 5)
@@ -121,25 +164,29 @@ export const Fibonacci = () => {
                 timeFormat = "YYYY-MM-DD HH:00:00";
                 break;
               case "FOUR_HOUR":
-                timeFormat = "YYYY-MM-DD HH:00:00"; // Adjust if needed
+                timeFormat = "YYYY-MM-DD HH:00:00";
                 break;
               case "ONE_DAY":
                 timeFormat = "YYYY-MM-DD 00:00:00";
                 break;
               default:
-                timeFormat = "YYYY-MM-DD HH:mm:ss"; // Default
+                timeFormat = "YYYY-MM-DD HH:mm:ss";
                 break;
             }
+            const timeToAdd =
+              singleIndicatorFilter.time === "ONE_HOUR"
+                ? i
+                : singleIndicatorFilter.time === "FOUR_HOUR"
+                ? i * 4
+                : i;
+            const timeUnit =
+              singleIndicatorFilter.time === "ONE_HOUR" ||
+              singleIndicatorFilter.time === "FOUR_HOUR"
+                ? "hour"
+                : "day";
             return [
               dayjs(similarPairList[0].originalStartDate)
-                .add(
-                  i,
-                  singleIndicatorFilter.time === "ONE_HOUR"
-                    ? "hour"
-                    : singleIndicatorFilter.time === "FOUR_HOUR"
-                    ? "hour"
-                    : "day"
-                )
+                .add(timeToAdd, timeUnit)
                 .format(timeFormat),
               similarPairList[0].originalFibonacci[i],
               price,
@@ -172,21 +219,28 @@ export const Fibonacci = () => {
                   timeFormat = "YYYY-MM-DD HH:mm:ss"; // Default
                   break;
               }
+              const timeToAdd =
+                singleIndicatorFilter.time === "ONE_HOUR"
+                  ? i
+                  : singleIndicatorFilter.time === "FOUR_HOUR"
+                  ? i * 4
+                  : i;
+              const timeUnit =
+                singleIndicatorFilter.time === "ONE_HOUR" ||
+                singleIndicatorFilter.time === "FOUR_HOUR"
+                  ? "hour"
+                  : "day";
               return [
                 dayjs(item.similarStartDate)
-                  .add(
-                    i,
-                    singleIndicatorFilter.time === "ONE_HOUR"
-                      ? "hour"
-                      : singleIndicatorFilter.time === "FOUR_HOUR"
-                      ? "hour"
-                      : "day"
-                  )
+                  .add(timeToAdd, timeUnit)
                   .format(timeFormat),
                 item.similarFibonacci[i],
                 price,
               ];
             }),
+            lineStyle: {
+              type: "dashed", // Đặt kiểu nét đứt cho các series
+            },
             type: "line",
             symbol: "none",
           })),
@@ -205,9 +259,19 @@ export const Fibonacci = () => {
 
   const fibonacciChartOptions = useMemo(() => {
     return {
+      dataZoom: [
+        {
+          type: "inside", // Hoặc 'slider' nếu bạn muốn thanh trượt dataZoom
+          xAxisIndex: [0], // Chỉ định trục xAxis áp dụng dataZoom
+          start: 0, // Phần trăm bắt đầu hiển thị (0 = 0%)
+          end: 100, // Phần trăm kết thúc hiển thị (100 = 100%)
+          // zoomLock: true,
+          realtime: false,
+        },
+      ],
       grid: {
         z: 10,
-        left: 30,
+        left: 10,
         right: 10,
         top: 20,
         bottom: 50,
@@ -220,6 +284,7 @@ export const Fibonacci = () => {
       },
       yAxis: {
         type: "value",
+        show: false,
         min: 0,
         max: 1,
       },
@@ -237,12 +302,137 @@ export const Fibonacci = () => {
         formatter: function (params: any) {
           let result = `<strong>${params[0].axisValueLabel}</strong><br/>`;
           params.forEach((item: any) => {
-            result += `${item.marker} ${item.seriesName}: ${item.data[2]} (Fibonacci: ${item.data[1]})<br/>`;
+            result += `${item.marker} <strong>${item.seriesName}</strong><br/>`;
+            result += `Fibonacci: ${item.data[1]}<br/>`;
+            result += `Price: ${item.data[2]}<br/>`;
           });
           return result;
         },
       },
-      series: seriesData,
+      series: seriesData.map((item) => ({
+        ...item,
+        markArea: {
+          silent: true,
+          label: {
+            show: true,
+            fontSize: 14,
+            color: "#000",
+            position: "insideBottomLeft",
+            offset: [0, 12],
+          },
+          emphasis: {
+            disabled: true,
+          },
+          data: [
+            [
+              {
+                name: "0.00",
+                yAxis: 0,
+                itemStyle: {
+                  color: "rgb(231,231,231)",
+                  borderWidth: 2,
+                  borderType: "dashed",
+                  borderColor: "rgba(199, 199, 199, 0.7)",
+                },
+              },
+              {
+                yAxis: 0.236,
+              },
+            ],
+            [
+              {
+                name: "0.236",
+                yAxis: 0.236,
+                itemStyle: {
+                  color: "rgb(213,234,246)",
+                  borderWidth: 2,
+                  borderType: "dashed",
+                  borderColor: "rgba(185, 227, 251, 1)",
+                },
+              },
+              {
+                yAxis: 0.382,
+              },
+            ],
+            [
+              {
+                name: "0.382",
+                yAxis: 0.382,
+                itemStyle: {
+                  color: "rgb(213,245,234)",
+                  borderWidth: 2,
+                  borderType: "dashed",
+                  borderColor: "rgba(195, 253, 233, 1)",
+                },
+              },
+              {
+                yAxis: 0.5,
+              },
+            ],
+            [
+              {
+                name: "0.5",
+                yAxis: 0.5,
+                itemStyle: {
+                  color: "rgba(213,245,212, 0.7)",
+                  borderWidth: 2,
+                  borderType: "dashed",
+                  borderColor: "rgba(199, 244, 197, 1)",
+                },
+              },
+              {
+                yAxis: 0.618,
+              },
+            ],
+
+            [
+              {
+                name: "0.618",
+                yAxis: 0.618,
+                itemStyle: {
+                  color: "rgba(227,253,189, 0.6)",
+                  borderWidth: 2,
+                  borderType: "dashed",
+                  borderColor: "rgba(178,255,62, 0.6)",
+                },
+              },
+              {
+                yAxis: 0.786,
+              },
+            ],
+            [
+              {
+                name: "0.786",
+                yAxis: 0.786,
+                itemStyle: {
+                  color: "#F7D7D6",
+                  borderWidth: 2,
+                  borderType: "dashed",
+                  borderColor: "#FED0D1",
+                },
+              },
+              {
+                yAxis: 1,
+              },
+            ],
+            [
+              {
+                name: "1.00",
+                yAxis: 1,
+                itemStyle: {
+                  color: "#F7D7D6",
+                  borderWidth: 2,
+                  borderType: "dashed",
+                  borderColor: "#FED0D1",
+                },
+              },
+              {
+                yAxis: 1,
+              },
+            ],
+          ],
+        },
+      })),
     };
   }, [seriesData]);
 
@@ -289,7 +479,7 @@ export const Fibonacci = () => {
                 )}
               />
               <Column
-                title="Discovered on"
+                title="Time"
                 dataIndex="discoveredOn"
                 key="discoveredOn"
                 align="right"
@@ -346,7 +536,7 @@ export const Fibonacci = () => {
                 align="left"
               />
               <Column
-                title="Discovered on"
+                title="Time"
                 dataIndex="similarStartDate"
                 key="similarStartDate"
                 align="right"
