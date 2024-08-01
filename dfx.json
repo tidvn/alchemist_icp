@@ -1,0 +1,12 @@
+{
+    "canisters": {
+      "nextjs_demo_icp": {
+        "frontend": {
+          "entrypoint": "out/index.html"
+        },
+        "source": ["out"],
+        "type": "assets"
+      }
+    },
+    "version": 1
+  }
